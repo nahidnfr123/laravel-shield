@@ -13,7 +13,7 @@ class TyroController extends Controller {
 
     public function version() {
         return response([
-            'version' => config('tyro.version'),
+            'version' => config('guardian.version'),
         ]);
     }
 }
