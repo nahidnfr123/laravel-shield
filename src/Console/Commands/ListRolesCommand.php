@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Role;
 
-class ListRolesCommand extends BaseTyroCommand
+class ListRolesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:roles';
+    protected $signature = 'shield:roles';
 
-    protected $description = 'Display all Tyro roles';
+    protected $description = 'Display all Shield roles';
 
     public function handle(): int
     {

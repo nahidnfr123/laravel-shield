@@ -1,17 +1,17 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class PostmanCollectionCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:postman-collection {--no-open : Only print the Postman collection URL}';
+class PostmanCollectionCommand extends BaseShieldCommand {
+    protected $signature = 'shield:postman-collection {--no-open : Only print the Postman collection URL}';
 
-    protected $description = 'Open the Tyro Postman collection in your browser';
+    protected $description = 'Open the Shield Postman collection in your browser';
 
-    private const COLLECTION_URL = 'https://github.com/NahidFerdous/tyro/blob/main/Tyro.postman_collection.json';
+    private const COLLECTION_URL = 'https://github.com/NahidFerdous/shield/blob/main/Shield.postman_collection.json';
 
     public function handle(): int {
         if (!$this->option('no-open') && $this->openUrl(self::COLLECTION_URL)) {
-            $this->info('Opening the Tyro Postman collection...');
+            $this->info('Opening the Shield Postman collection...');
         } else {
             $this->line('Postman collection: ' . self::COLLECTION_URL);
         }

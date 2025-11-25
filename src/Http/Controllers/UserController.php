@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -38,9 +38,9 @@ class UserController extends Controller
             'name' => $creds['name'],
         ]);
 
-        $defaultRoleSlug = config('tyro.default_user_role_slug', 'user');
+        $defaultRoleSlug = config('shield.default_user_role_slug', 'user');
         $user->roles()->attach(Role::where('slug', $defaultRoleSlug)->first());
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         return $user;
     }
@@ -63,12 +63,12 @@ class UserController extends Controller
             return response(['error' => 1, 'message' => 'user is suspended'], 423);
         }
 
-        if (config('tyro.delete_previous_access_tokens_on_login', false)) {
+        if (config('shield.delete_previous_access_tokens_on_login', false)) {
             $user->tokens()->delete();
         }
 
         $roles = $user->roles->pluck('slug')->all();
-        $token = $user->createToken('tyro-api-token', $roles)->plainTextToken;
+        $token = $user->createToken('shield-api-token', $roles)->plainTextToken;
 
         return response(['error' => 0, 'id' => $user->id, 'name' => $user->name, 'token' => $token], 200);
     }
@@ -116,7 +116,7 @@ class UserController extends Controller
         }
 
         $user->delete();
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         return response(['error' => 0, 'message' => 'user deleted']);
     }
@@ -128,7 +128,7 @@ class UserController extends Controller
 
     protected function userClass(): string
     {
-        return config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        return config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }
 
     protected function userQuery()

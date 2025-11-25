@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class AdminLoginTest extends TestCase {
     public function test_admin_login_succeeds(): void {
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
-            'password' => 'tyro',
+            'email' => 'admin@shield.project',
+            'password' => 'shield',
         ]);
 
         $response->assertJson(fn(AssertableJson $json) => $json
@@ -20,7 +20,7 @@ class AdminLoginTest extends TestCase {
 
     public function test_admin_login_fails_with_bad_password(): void {
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
+            'email' => 'admin@shield.project',
             'password' => 'wrong-password',
         ]);
 
@@ -31,16 +31,16 @@ class AdminLoginTest extends TestCase {
     }
 
     public function test_admin_login_fails_when_suspended(): void {
-        $userClass = config('tyro.models.user');
-        $admin = $userClass::where('email', 'admin@tyro.project')->firstOrFail();
+        $userClass = config('shield.models.user');
+        $admin = $userClass::where('email', 'admin@shield.project')->firstOrFail();
         $admin->forceFill([
             'suspended_at' => now(),
             'suspension_reason' => 'Security hold',
         ])->save();
 
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
-            'password' => 'tyro',
+            'email' => 'admin@shield.project',
+            'password' => 'shield',
         ]);
 
         $response->assertStatus(423)

@@ -1,5 +1,5 @@
 <?php
 
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Tests\TestCase;
 
 uses(TestCase::class)->in('Feature');

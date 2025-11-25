@@ -1,8 +1,8 @@
 <?php
 
-namespace NahidFerdous\Guardian\Database\Seeders;
+namespace NahidFerdous\Shield\Database\Seeders;
 
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder

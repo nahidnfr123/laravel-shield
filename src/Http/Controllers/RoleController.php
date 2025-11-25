@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -44,7 +44,7 @@ class RoleController extends Controller
         $role->name = $request->name ?? $role->name;
 
         if ($request->slug) {
-            $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
+            $protected = config('shield.protected_role_slugs', ['admin', 'super-admin']);
             if (! in_array($role->slug, $protected, true)) {
                 $role->slug = $request->slug;
             }
@@ -54,7 +54,7 @@ class RoleController extends Controller
         $role->save();
 
         if ($dirty) {
-            GuardianCache::forgetUsersByRole($role);
+            ShieldCache::forgetUsersByRole($role);
         }
 
         return $role;
@@ -62,12 +62,12 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
+        $protected = config('shield.protected_role_slugs', ['admin', 'super-admin']);
         if (in_array($role->slug, $protected, true)) {
             return response(['error' => 1, 'message' => 'you cannot delete this role'], 422);
         }
 
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
         $role->delete();
 
         return response(['error' => 0, 'message' => 'role has been deleted']);

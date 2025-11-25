@@ -1,8 +1,8 @@
 <?php
 
-namespace NahidFerdous\Guardian\Database\Factories;
+namespace NahidFerdous\Shield\Database\Factories;
 
-use NahidFerdous\Guardian\Models\Privilege;
+use NahidFerdous\Shield\Models\Privilege;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

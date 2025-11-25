@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Role;
 
-class ListRolesWithPrivilegesCommand extends BaseTyroCommand
+class ListRolesWithPrivilegesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:roles-with-privileges';
+    protected $signature = 'shield:roles-with-privileges';
 
     protected $description = 'Display each role along with its attached privileges';
 

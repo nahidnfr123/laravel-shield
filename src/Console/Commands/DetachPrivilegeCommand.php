@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class DetachPrivilegeCommand extends BaseTyroCommand
+class DetachPrivilegeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:detach-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'shield:detach-privilege {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
 
-    protected $description = 'Detach a privilege from a Tyro role';
+    protected $description = 'Detach a privilege from a Shield role';
 
     public function handle(): int
     {
@@ -42,7 +42,7 @@ class DetachPrivilegeCommand extends BaseTyroCommand
         }
 
         $role->privileges()->detach($privilege);
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         $this->info("Privilege [{$privilege->slug}] detached from role [{$role->slug}].");
 

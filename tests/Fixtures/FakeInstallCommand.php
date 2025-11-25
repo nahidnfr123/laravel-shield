@@ -1,8 +1,8 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Fixtures;
+namespace NahidFerdous\Shield\Tests\Fixtures;
 
-use NahidFerdous\Guardian\Console\Commands\InstallCommand;
+use NahidFerdous\Shield\Console\Commands\InstallCommand;
 
 class FakeInstallCommand extends InstallCommand
 {

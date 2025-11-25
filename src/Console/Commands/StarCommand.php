@@ -1,21 +1,21 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class StarCommand extends BaseTyroCommand
+class StarCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:star {--no-open : Only print the link instead of opening a browser}';
+    protected $signature = 'shield:star {--no-open : Only print the link instead of opening a browser}';
 
-    protected $description = 'Open the Tyro GitHub repository so you can star it';
+    protected $description = 'Open the Shield GitHub repository so you can star it';
 
     public function handle(): int
     {
-        $url = 'https://github.com/NahidFerdous/tyro';
+        $url = 'https://github.com/NahidFerdous/shield';
 
         if (! $this->option('no-open') && $this->openUrl($url)) {
-            $this->info('Opening the Tyro repository in your default browser...');
+            $this->info('Opening the Shield repository in your default browser...');
         } else {
-            $this->line('Give Tyro a ⭐ at: '.$url);
+            $this->line('Give Shield a ⭐ at: '.$url);
         }
 
         return self::SUCCESS;

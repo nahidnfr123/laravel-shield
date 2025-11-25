@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Middleware;
+namespace NahidFerdous\Shield\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class EnsureAnyGuardianPrivilege
+class EnsureAnyShieldPrivilege
 {
     public function handle(Request $request, Closure $next, string ...$privileges)
     {
@@ -29,7 +29,7 @@ class EnsureAnyGuardianPrivilege
         $hasPrivilege = $required->contains(fn ($privilege) => $ownedPrivileges->contains(fn ($slug) => $slug === $privilege || $slug === '*'));
 
         if (! $hasPrivilege) {
-            // throw new AuthorizationException('Missing the required Tyro privileges.');
+            // throw new AuthorizationException('Missing the required Shield privileges.');
             throw new AuthorizationException('ACCESS DENIED.');
         }
 
@@ -51,8 +51,8 @@ class EnsureAnyGuardianPrivilege
 
     private function resolvePrivilegeSlugs($user): Collection
     {
-        if (method_exists($user, 'tyroPrivilegeSlugs')) {
-            return collect($user->tyroPrivilegeSlugs());
+        if (method_exists($user, 'shieldPrivilegeSlugs')) {
+            return collect($user->shieldPrivilegeSlugs());
         }
 
         if (method_exists($user, 'privileges')) {

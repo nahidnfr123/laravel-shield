@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Tests\TestCase;
 
 class DisabledApiTest extends TestCase {
-    protected bool $disableTyroApi = true;
+    protected bool $disableShieldApi = true;
 
-    public function test_tyro_routes_are_not_registered_when_disabled(): void {
-        $this->get('/api/tyro')->assertNotFound();
-        $this->get('/api/tyro/version')->assertNotFound();
+    public function test_shield_routes_are_not_registered_when_disabled(): void {
+        $this->get('/api/shield')->assertNotFound();
+        $this->get('/api/shield/version')->assertNotFound();
     }
 }

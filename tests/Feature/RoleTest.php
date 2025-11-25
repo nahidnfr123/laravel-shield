@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class RoleTest extends TestCase {
@@ -15,8 +15,8 @@ class RoleTest extends TestCase {
         }
 
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
-            'password' => 'tyro',
+            'email' => 'admin@shield.project',
+            'password' => 'shield',
         ]);
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);

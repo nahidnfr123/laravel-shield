@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Database\Seeders\PrivilegeSeeder;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Database\Seeders\PrivilegeSeeder;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class SeedPrivilegesCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:seed-privileges {--force : Skip confirmation even though this overwrites privileges and role mappings}';
+class SeedPrivilegesCommand extends BaseShieldCommand {
+    protected $signature = 'shield:seed-privileges {--force : Skip confirmation even though this overwrites privileges and role mappings}';
 
-    protected $description = 'Re-seed Tyro\'s default privilege definitions and role assignments';
+    protected $description = 'Re-seed Shield\'s default privilege definitions and role assignments';
 
     public function handle(): int {
         if (!$this->option('force') && !$this->confirm('This will overwrite existing privilege definitions and role mappings. Continue?', false)) {
@@ -21,9 +21,9 @@ class SeedPrivilegesCommand extends BaseTyroCommand {
         $seeder = $this->laravel->make(PrivilegeSeeder::class);
         $seeder->setContainer($this->laravel)->setCommand($this);
         $seeder->run();
-        GuardianCache::forgetAllUsersWithRoles();
+        ShieldCache::forgetAllUsersWithRoles();
 
-        $this->info('Default Tyro privileges and role mappings have been re-seeded.');
+        $this->info('Default Shield privileges and role mappings have been re-seeded.');
 
         return self::SUCCESS;
     }

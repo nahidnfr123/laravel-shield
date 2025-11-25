@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Tyro API",
+    "name": "Shield API",
     "version": "2.1.0",
-    "description": "Collection covering every Tyro package endpoint with sample payloads and scripts to capture the Sanctum token for subsequent requests.",
+    "description": "Collection covering every Shield package endpoint with sample payloads and scripts to capture the Sanctum token for subsequent requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -10,7 +10,7 @@
       "name": "Public",
       "item": [
         {
-          "name": "Tyro Info",
+          "name": "Shield Info",
           "request": {
             "method": "GET",
             "header": [
@@ -20,20 +20,20 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/tyro",
+              "raw": "{{base_url}}/api/shield",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
-                "tyro"
+                "shield"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Tyro Version",
+          "name": "Shield Version",
           "request": {
             "method": "GET",
             "header": [
@@ -43,13 +43,13 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/api/tyro/version",
+              "raw": "{{base_url}}/api/shield/version",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
-                "tyro",
+                "shield",
                 "version"
               ]
             }
@@ -122,7 +122,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"tester+{{timestamp}}@tyro.project\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"tester+{{timestamp}}@shield.project\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/users",
@@ -253,7 +253,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated+{{timestamp}}@tyro.project\",\n  \"password\": \"tyro\",\n  \"password_confirmation\": \"tyro\"\n}"
+                  "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated+{{timestamp}}@shield.project\",\n  \"password\": \"shield\",\n  \"password_confirmation\": \"shield\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/users/{{user_id}}",
@@ -895,11 +895,11 @@
     },
     {
       "key": "admin_email",
-      "value": "admin@tyro.project"
+      "value": "admin@shield.project"
     },
     {
       "key": "admin_password",
-      "value": "tyro"
+      "value": "shield"
     },
     {
       "key": "token",

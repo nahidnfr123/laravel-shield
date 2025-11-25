@@ -1,18 +1,18 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Carbon;
 
-class SuspendUserCommand extends BaseTyroCommand
+class SuspendUserCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:suspend-user
+    protected $signature = 'shield:suspend-user
         {--user= : User ID or email address}
         {--reason= : Optional suspension reason}
         {--unsuspend : Lift the current suspension instead of applying one}
         {--force : Skip confirmation prompts}';
 
-    protected $description = 'Suspend or unsuspend a Tyro user';
+    protected $description = 'Suspend or unsuspend a Shield user';
 
     public function handle(): int
     {

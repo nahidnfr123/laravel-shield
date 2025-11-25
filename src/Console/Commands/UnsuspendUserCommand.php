@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class UnsuspendUserCommand extends BaseTyroCommand
+class UnsuspendUserCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:unsuspend-user
+    protected $signature = 'shield:unsuspend-user
         {--user= : User ID or email address}
         {--force : Skip confirmation prompts}';
 
-    protected $description = 'Lift the suspension for a Tyro user';
+    protected $description = 'Lift the suspension for a Shield user';
 
     public function handle(): int
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class AttachPrivilegeCommand extends BaseTyroCommand
+class AttachPrivilegeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:attach-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'shield:attach-privilege {privilege? : Privilege ID or slug}
         {role? : Role ID or slug}';
 
-    protected $description = 'Attach a privilege to a Tyro role';
+    protected $description = 'Attach a privilege to a Shield role';
 
     public function handle(): int
     {
@@ -42,7 +42,7 @@ class AttachPrivilegeCommand extends BaseTyroCommand
         }
 
         $role->privileges()->syncWithoutDetaching($privilege);
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         $this->info("Privilege [{$privilege->slug}] attached to role [{$role->slug}].");
 

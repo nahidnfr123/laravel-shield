@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class DeletePrivilegeCommand extends BaseTyroCommand
+class DeletePrivilegeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:delete-privilege {privilege? : Privilege ID or slug}
+    protected $signature = 'shield:delete-privilege {privilege? : Privilege ID or slug}
         {--force : Skip confirmation prompt}';
 
-    protected $description = 'Delete a Tyro privilege record';
+    protected $description = 'Delete a Shield privilege record';
 
     public function handle(): int
     {
@@ -39,7 +39,7 @@ class DeletePrivilegeCommand extends BaseTyroCommand
             return self::SUCCESS;
         }
 
-        GuardianCache::forgetUsersByPrivilege($privilege);
+        ShieldCache::forgetUsersByPrivilege($privilege);
         $privilege->roles()->detach();
         $privilege->delete();
 

@@ -1,18 +1,18 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 
 class DisabledCommandsTest extends TestCase {
-    protected bool $disableTyroCommands = true;
+    protected bool $disableShieldCommands = true;
 
-    public function test_tyro_commands_are_not_registered_when_disabled(): void {
-        $this->assertArrayNotHasKey('tyro:about', Artisan::all());
-        $this->assertArrayNotHasKey('tyro:doc', Artisan::all());
-        $this->assertArrayNotHasKey('tyro:quick-token', Artisan::all());
-        $this->assertArrayNotHasKey('tyro:install', Artisan::all());
-        $this->assertArrayNotHasKey('tyro:prepare-user-model', Artisan::all());
+    public function test_shield_commands_are_not_registered_when_disabled(): void {
+        $this->assertArrayNotHasKey('shield:about', Artisan::all());
+        $this->assertArrayNotHasKey('shield:doc', Artisan::all());
+        $this->assertArrayNotHasKey('shield:quick-token', Artisan::all());
+        $this->assertArrayNotHasKey('shield:install', Artisan::all());
+        $this->assertArrayNotHasKey('shield:prepare-user-model', Artisan::all());
     }
 }

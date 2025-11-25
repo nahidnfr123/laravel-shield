@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $userTable = config('tyro.tables.users', 'users');
+        $userTable = config('shield.tables.users', 'users');
 
         Schema::table($userTable, function (Blueprint $table) use ($userTable) {
             if (! Schema::hasColumn($userTable, 'suspended_at')) {
@@ -23,7 +23,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        $userTable = config('tyro.tables.users', 'users');
+        $userTable = config('shield.tables.users', 'users');
 
         Schema::table($userTable, function (Blueprint $table) use ($userTable) {
             if (Schema::hasColumn($userTable, 'suspension_reason')) {

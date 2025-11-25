@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Middleware;
+namespace NahidFerdous\Shield\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class GuardianLog
+class ShieldLog
 {
     public function handle(Request $request, Closure $next)
     {
@@ -20,10 +20,10 @@ class GuardianLog
         }
 
         Log::info(str_repeat('=', 80));
-        Log::debug('tyro.route', ['route' => optional($request->route())->uri()]);
-        Log::debug('tyro.headers', $request->headers->all());
-        Log::debug('tyro.request', $request->all());
-        Log::debug('tyro.response', ['status' => $response->getStatusCode()]);
+        Log::debug('shield.route', ['route' => optional($request->route())->uri()]);
+        Log::debug('shield.headers', $request->headers->all());
+        Log::debug('shield.request', $request->all());
+        Log::debug('shield.response', ['status' => $response->getStatusCode()]);
         Log::info(str_repeat('=', 80));
     }
 }

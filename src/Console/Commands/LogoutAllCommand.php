@@ -1,10 +1,10 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class LogoutAllCommand extends BaseTyroCommand
+class LogoutAllCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:logout-all {--user=} {--force}';
+    protected $signature = 'shield:logout-all {--user=} {--force}';
 
     protected $description = 'Delete every Sanctum token for a specific user';
 

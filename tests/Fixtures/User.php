@@ -1,8 +1,8 @@
 <?php
 
-    namespace NahidFerdous\Guardian\Tests\Fixtures;
+    namespace NahidFerdous\Shield\Tests\Fixtures;
 
-use NahidFerdous\Guardian\Concerns\HasGuardianRoles;
+use NahidFerdous\Shield\Concerns\HasShieldRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasGuardianRoles;
+    use HasShieldRoles;
     use Notifiable;
 
     protected $fillable = [

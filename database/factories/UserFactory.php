@@ -1,6 +1,6 @@
 <?php
 
-namespace NahidFerdous\Guardian\Database\Factories;
+namespace NahidFerdous\Shield\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +15,7 @@ class UserFactory extends Factory
 
     public function modelName(): string
     {
-        return config('tyro.models.user', 'App\\Models\\User');
+        return config('shield.models.user', 'App\\Models\\User');
     }
 
     public function definition(): array

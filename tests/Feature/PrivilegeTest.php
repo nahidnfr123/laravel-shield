@@ -1,10 +1,10 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class PrivilegeTest extends TestCase {
@@ -16,8 +16,8 @@ class PrivilegeTest extends TestCase {
         }
 
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
-            'password' => 'tyro',
+            'email' => 'admin@shield.project',
+            'password' => 'shield',
         ]);
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -68,7 +68,7 @@ class PrivilegeTest extends TestCase {
             ->where('error', 0)
             ->where('message', 'privilege has been deleted'));
 
-        $this->assertDatabaseMissing(config('tyro.tables.privileges', 'privileges'), ['id' => $privilegeId]);
+        $this->assertDatabaseMissing(config('shield.tables.privileges', 'privileges'), ['id' => $privilegeId]);
     }
 
     public function test_role_privilege_routes_attach_and_detach(): void {

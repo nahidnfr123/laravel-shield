@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Support;
+namespace NahidFerdous\Shield\Support;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class GuardianCache
+class ShieldCache
 {
     protected static array $runtimeVersions = [];
 
@@ -57,7 +57,7 @@ class GuardianCache
 
     public static function forgetUsersByPrivilege(Privilege $privilege): void
     {
-        $roleIds = DB::table(config('tyro.tables.role_privilege', 'privilege_role'))
+        $roleIds = DB::table(config('shield.tables.role_privilege', 'privilege_role'))
             ->where('privilege_id', $privilege->getKey())
             ->pluck('role_id');
 
@@ -72,7 +72,7 @@ class GuardianCache
             return;
         }
 
-        $userIds = DB::table(config('tyro.tables.pivot', 'user_roles'))
+        $userIds = DB::table(config('shield.tables.pivot', 'user_roles'))
             ->whereIn('role_id', $roleIds->all())
             ->pluck('user_id');
 
@@ -81,7 +81,7 @@ class GuardianCache
 
     public static function forgetAllUsersWithRoles(): void
     {
-        $userIds = DB::table(config('tyro.tables.pivot', 'user_roles'))->pluck('user_id');
+        $userIds = DB::table(config('shield.tables.pivot', 'user_roles'))->pluck('user_id');
 
         static::forgetUsers($userIds);
     }
@@ -120,14 +120,14 @@ class GuardianCache
 
     protected static function cacheStore(): CacheRepository
     {
-        $store = config('tyro.cache.store');
+        $store = config('shield.cache.store');
 
         return $store ? Cache::store($store) : Cache::store();
     }
 
     protected static function ttl(): ?int
     {
-        $ttl = config('tyro.cache.ttl', 300);
+        $ttl = config('shield.cache.ttl', 300);
 
         if ($ttl === null) {
             return null;
@@ -140,17 +140,17 @@ class GuardianCache
 
     protected static function enabled(): bool
     {
-        return (bool) config('tyro.cache.enabled', true);
+        return (bool) config('shield.cache.enabled', true);
     }
 
     protected static function rolesKey($userId): string
     {
-        return sprintf('tyro:user:%s:roles', $userId);
+        return sprintf('shield:user:%s:roles', $userId);
     }
 
     protected static function privilegesKey($userId): string
     {
-        return sprintf('tyro:user:%s:privileges', $userId);
+        return sprintf('shield:user:%s:privileges', $userId);
     }
 
     protected static function bumpRuntimeVersion($user): void

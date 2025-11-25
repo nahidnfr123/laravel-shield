@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('tyro.tables.roles', 'roles'), function (Blueprint $table) {
+        Schema::create(config('shield.tables.roles', 'roles'), function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->index();
@@ -18,6 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('tyro.tables.roles', 'roles'));
+        Schema::dropIfExists(config('shield.tables.roles', 'roles'));
     }
 };

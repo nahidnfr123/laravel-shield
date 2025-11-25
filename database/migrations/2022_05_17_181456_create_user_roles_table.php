@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $pivot = config('tyro.tables.pivot', 'user_roles');
+        $pivot = config('shield.tables.pivot', 'user_roles');
         Schema::create($pivot, function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('role_id')->constrained(config('tyro.tables.roles', 'roles'))->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained(config('shield.tables.roles', 'roles'))->cascadeOnDelete();
             $table->unique(['user_id', 'role_id']);
             $table->timestamps();
         });
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('tyro.tables.pivot', 'user_roles'));
+        Schema::dropIfExists(config('shield.tables.pivot', 'user_roles'));
     }
 };

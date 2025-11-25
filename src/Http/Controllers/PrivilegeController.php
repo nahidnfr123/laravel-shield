@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
@@ -19,7 +19,7 @@ class PrivilegeController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string', 'max:255', Rule::unique(config('tyro.tables.privileges', 'privileges'), 'slug')],
+            'slug' => ['required', 'string', 'max:255', Rule::unique(config('shield.tables.privileges', 'privileges'), 'slug')],
             'description' => ['nullable', 'string'],
         ]);
 
@@ -37,7 +37,7 @@ class PrivilegeController extends Controller
     {
         $data = $request->validate([
             'name' => ['sometimes', 'string'],
-            'slug' => ['sometimes', 'string', 'max:255', Rule::unique(config('tyro.tables.privileges', 'privileges'), 'slug')->ignore($privilege->id)],
+            'slug' => ['sometimes', 'string', 'max:255', Rule::unique(config('shield.tables.privileges', 'privileges'), 'slug')->ignore($privilege->id)],
             'description' => ['nullable', 'string'],
         ]);
 
@@ -46,7 +46,7 @@ class PrivilegeController extends Controller
         $privilege->save();
 
         if ($dirty) {
-            GuardianCache::forgetUsersByPrivilege($privilege);
+            ShieldCache::forgetUsersByPrivilege($privilege);
         }
 
         return $privilege->fresh('roles:id,name,slug');
@@ -54,7 +54,7 @@ class PrivilegeController extends Controller
 
     public function destroy(Privilege $privilege)
     {
-        GuardianCache::forgetUsersByPrivilege($privilege);
+        ShieldCache::forgetUsersByPrivilege($privilege);
         $privilege->roles()->detach();
         $privilege->delete();
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Symfony\Component\Process\Process;
 
-class RunTestsCommand extends BaseTyroCommand
+class RunTestsCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:run-tests
+    protected $signature = 'shield:run-tests
         {--pest : Force Pest}
         {--phpunit : Force PHPUnit}
         {--filter= : Filter tests by name}

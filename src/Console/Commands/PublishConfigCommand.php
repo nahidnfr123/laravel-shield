@@ -1,16 +1,16 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class PublishConfigCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:publish-config {--force : Overwrite the existing config file if it already exists}';
+class PublishConfigCommand extends BaseShieldCommand {
+    protected $signature = 'shield:publish-config {--force : Overwrite the existing config file if it already exists}';
 
-    protected $description = 'Publish Tyro\'s configuration file into your application';
+    protected $description = 'Publish Shield\'s configuration file into your application';
 
     public function handle(): int {
         $options = [
-            '--provider' => 'NahidFerdous\\Tyro\\Providers\\GuardianServiceProvider',
-            '--tag' => 'tyro-config',
+            '--provider' => 'NahidFerdous\\Shield\\Providers\\ShieldServiceProvider',
+            '--tag' => 'shield-config',
         ];
 
         if ($this->option('force')) {
@@ -19,7 +19,7 @@ class PublishConfigCommand extends BaseTyroCommand {
 
         $this->call('vendor:publish', $options);
 
-        $this->info('Tyro configuration published to config/tyro.php');
+        $this->info('Shield configuration published to config/shield.php');
 
         return self::SUCCESS;
     }

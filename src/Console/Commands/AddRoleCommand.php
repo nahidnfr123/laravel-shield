@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Support\Str;
 
-class AddRoleCommand extends BaseTyroCommand
+class AddRoleCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:create-role {--name=} {--slug=}';
+    protected $signature = 'shield:create-role {--name=} {--slug=}';
 
     protected $description = 'Create a new role';
 

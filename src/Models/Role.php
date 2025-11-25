@@ -1,6 +1,6 @@
 <?php
 
-namespace NahidFerdous\Guardian\Models;
+namespace NahidFerdous\Shield\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,15 +16,15 @@ class Role extends Model {
     protected $table = 'roles';
 
     public function users() {
-        $userClass = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        $userClass = config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
-        return $this->belongsToMany($userClass, config('tyro.tables.pivot', 'user_roles'));
+        return $this->belongsToMany($userClass, config('shield.tables.pivot', 'user_roles'));
     }
 
     public function privileges(): BelongsToMany {
         return $this->belongsToMany(
             Privilege::class,
-            config('tyro.tables.role_privilege', 'privilege_role')
+            config('shield.tables.role_privilege', 'privilege_role')
         )->using(RolePrivilege::class)->withTimestamps();
     }
 

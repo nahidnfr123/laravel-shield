@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Carbon;
 
-class ListUsersCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:users';
+class ListUsersCommand extends BaseShieldCommand {
+    protected $signature = 'shield:users';
 
-    protected $description = 'Display all users tracked by Tyro';
+    protected $description = 'Display all users tracked by Shield';
 
     public function handle(): int {
         $users = $this->newUserQuery()

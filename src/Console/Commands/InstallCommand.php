@@ -1,16 +1,16 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
-class InstallCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:install
+class InstallCommand extends BaseShieldCommand {
+    protected $signature = 'shield:install
         {--force : Pass the --force flag to migrate}
         {--dry-run : Print the steps without executing install:api or migrate}';
 
-    protected $description = 'Run install:api followed by migrate to bootstrap Tyro\'s requirements';
+    protected $description = 'Run install:api followed by migrate to bootstrap Shield\'s requirements';
 
     public function handle(): int {
         if ($this->option('dry-run')) {
@@ -23,7 +23,7 @@ class InstallCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if (!$this->runRequiredCommand('tyro:prepare-user-model')) {
+        if (!$this->runRequiredCommand('shield:prepare-user-model')) {
             return self::FAILURE;
         }
 
@@ -37,13 +37,13 @@ class InstallCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if ($this->confirm('Seed Tyro roles, privileges, and the bootstrap admin user now?', true)) {
-            if (!$this->runRequiredCommand('tyro:seed', ['--force' => true])) {
+        if ($this->confirm('Seed Shield roles, privileges, and the bootstrap admin user now?', true)) {
+            if (!$this->runRequiredCommand('shield:seed', ['--force' => true])) {
                 return self::FAILURE;
             }
         }
 
-        $this->info('Tyro install flow complete.');
+        $this->info('Shield install flow complete.');
 
         return self::SUCCESS;
     }

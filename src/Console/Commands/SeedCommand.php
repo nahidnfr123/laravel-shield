@@ -1,31 +1,31 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Database\Seeders\TyroSeeder;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Database\Seeders\ShieldSeeder;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class SeedCommand extends BaseTyroCommand
+class SeedCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:seed {--force : Run without confirmation (will truncate users and roles tables)}';
+    protected $signature = 'shield:seed {--force : Run without confirmation (will truncate users and roles tables)}';
 
-    protected $description = 'Run the TyroSeeder to recreate default roles and the bootstrap admin user';
+    protected $description = 'Run the ShieldSeeder to recreate default roles and the bootstrap admin user';
 
     public function handle(): int
     {
-        if (! $this->option('force') && ! $this->confirm('TyroSeeder truncates your users/roles/privileges tables before seeding. Continue?', false)) {
+        if (! $this->option('force') && ! $this->confirm('ShieldSeeder truncates your users/roles/privileges tables before seeding. Continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;
         }
 
-        /** @var TyroSeeder $seeder */
-        $seeder = $this->laravel->make(TyroSeeder::class);
+        /** @var ShieldSeeder $seeder */
+        $seeder = $this->laravel->make(ShieldSeeder::class);
         $seeder->setContainer($this->laravel)->setCommand($this);
         $seeder->run();
-        GuardianCache::forgetAllUsersWithRoles();
+        ShieldCache::forgetAllUsersWithRoles();
 
-        $this->info('TyroSeeder completed. Default roles and admin user restored.');
+        $this->info('ShieldSeeder completed. Default roles and admin user restored.');
 
         return self::SUCCESS;
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class AssignRoleCommand extends BaseTyroCommand
+class AssignRoleCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:assign-role {--user=} {--role=}';
+    protected $signature = 'shield:assign-role {--user=} {--role=}';
 
     protected $description = 'Attach a role to a user';
 
@@ -23,7 +23,7 @@ class AssignRoleCommand extends BaseTyroCommand
         }
 
         if (! method_exists($user, 'roles')) {
-            $this->error('The configured user model does not use the HasGuardianRoles trait.');
+            $this->error('The configured user model does not use the HasShieldRoles trait.');
 
             return self::FAILURE;
         }
@@ -36,7 +36,7 @@ class AssignRoleCommand extends BaseTyroCommand
         }
 
         $user->roles()->syncWithoutDetaching($role);
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         $this->info(sprintf('Role "%s" assigned to %s.', $role->slug, $user->email));
 

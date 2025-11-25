@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class DeleteUserRoleCommand extends BaseTyroCommand
+class DeleteUserRoleCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:delete-user-role {--user=} {--role=}';
+    protected $signature = 'shield:delete-user-role {--user=} {--role=}';
 
     protected $description = 'Detach a role from a user';
 
@@ -23,7 +23,7 @@ class DeleteUserRoleCommand extends BaseTyroCommand
         }
 
         if (! method_exists($user, 'roles')) {
-            $this->error('The configured user model does not use the HasGuardianRoles trait.');
+            $this->error('The configured user model does not use the HasShieldRoles trait.');
 
             return self::FAILURE;
         }
@@ -36,7 +36,7 @@ class DeleteUserRoleCommand extends BaseTyroCommand
         }
 
         $detached = $user->roles()->detach($role);
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         if ($detached) {
             $this->info(sprintf('Role "%s" removed from %s.', $role->slug, $user->email));

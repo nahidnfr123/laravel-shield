@@ -1,20 +1,20 @@
 <?php
 
-namespace NahidFerdous\Guardian\Database\Seeders;
+namespace NahidFerdous\Shield\Database\Seeders;
 
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UsersSeeder extends Seeder {
     public function run(): void {
-        $userClass = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        $userClass = config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
         /** @var \Illuminate\Database\Eloquent\Model $user */
         $user = $userClass::create([
-            'email' => 'admin@tyro.project',
-            'password' => Hash::make('tyro'),
-            'name' => 'Tyro Admin',
+            'email' => 'admin@shield.project',
+            'password' => Hash::make('shield'),
+            'name' => 'Shield Admin',
         ]);
 
         $adminRole = Role::where('slug', 'admin')->first();

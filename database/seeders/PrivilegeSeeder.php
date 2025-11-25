@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Database\Seeders;
+namespace NahidFerdous\Shield\Database\Seeders;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -27,7 +27,7 @@ class PrivilegeSeeder extends Seeder
             [
                 'name' => 'Manage Roles',
                 'slug' => 'roles.manage',
-                'description' => 'Allows editing Tyro roles.',
+                'description' => 'Allows editing Shield roles.',
                 'roles' => ['super-admin'],
             ],
             [

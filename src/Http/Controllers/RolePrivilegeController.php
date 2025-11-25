@@ -1,10 +1,10 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
@@ -22,13 +22,13 @@ class RolePrivilegeController extends Controller
             'privilege_id' => [
                 'required',
                 'integer',
-                Rule::exists(config('tyro.tables.privileges', 'privileges'), 'id'),
+                Rule::exists(config('shield.tables.privileges', 'privileges'), 'id'),
             ],
         ]);
 
         $privilege = Privilege::findOrFail($data['privilege_id']);
         $role->privileges()->syncWithoutDetaching($privilege);
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         return $role->load('privileges');
     }
@@ -36,7 +36,7 @@ class RolePrivilegeController extends Controller
     public function destroy(Role $role, Privilege $privilege)
     {
         $role->privileges()->detach($privilege);
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         return $role->load('privileges');
     }

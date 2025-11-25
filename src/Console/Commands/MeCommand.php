@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Laravel\Sanctum\PersonalAccessToken;
 
-class MeCommand extends BaseTyroCommand
+class MeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:me {token?} {--token=}';
+    protected $signature = 'shield:me {token?} {--token=}';
 
     protected $description = 'Inspect which user a given token belongs to';
 

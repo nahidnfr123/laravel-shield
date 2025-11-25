@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Laravel\Sanctum\PersonalAccessToken;
 
-class LogoutAllUsersCommand extends BaseTyroCommand
+class LogoutAllUsersCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:logout-all-users {--force : Skip the confirmation prompt}';
+    protected $signature = 'shield:logout-all-users {--force : Skip the confirmation prompt}';
 
     protected $description = 'Revoke every Sanctum token issued for all users';
 

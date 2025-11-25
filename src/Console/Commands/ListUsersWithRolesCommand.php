@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class ListUsersWithRolesCommand extends BaseTyroCommand
+class ListUsersWithRolesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:users-with-roles';
+    protected $signature = 'shield:users-with-roles';
 
-    protected $description = 'Display users alongside their Tyro roles';
+    protected $description = 'Display users alongside their Shield roles';
 
     public function handle(): int
     {
@@ -14,7 +14,7 @@ class ListUsersWithRolesCommand extends BaseTyroCommand
         $userInstance = new $userClass;
 
         if (! method_exists($userInstance, 'roles')) {
-            $this->error('The configured user model does not include the HasGuardianRoles trait.');
+            $this->error('The configured user model does not include the HasShieldRoles trait.');
 
             return self::FAILURE;
         }

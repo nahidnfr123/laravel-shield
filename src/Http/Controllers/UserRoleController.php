@@ -1,9 +1,9 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -26,7 +26,7 @@ class UserRoleController extends Controller
         $role = Role::findOrFail($data['role_id']);
         if (! $user->roles()->find($role->id)) {
             $user->roles()->attach($role);
-            GuardianCache::forgetUser($user);
+            ShieldCache::forgetUser($user);
         }
 
         return $user->load('roles');
@@ -36,14 +36,14 @@ class UserRoleController extends Controller
     {
         $user = $this->resolveUser($user);
         $user->roles()->detach($role);
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         return $user->load('roles');
     }
 
     protected function resolveUser($user)
     {
-        $class = config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        $class = config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
 
         if ($user instanceof $class) {
             return $user;

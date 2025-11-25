@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateUserCommand extends BaseTyroCommand
+class UpdateUserCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:update-user {--user=} {--name=} {--email=} {--password=}';
+    protected $signature = 'shield:update-user {--user=} {--name=} {--email=} {--password=}';
 
     protected $description = "Update a user's name, email and password";
 

@@ -1,22 +1,22 @@
 <?php
 
-namespace NahidFerdous\Guardian\Concerns;
+namespace NahidFerdous\Shield\Concerns;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Models\UserRole;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Models\UserRole;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
-trait HasGuardianRoles {
-    protected ?array $tyroRoleSlugsCache = null;
+trait HasShieldRoles {
+    protected ?array $shieldRoleSlugsCache = null;
 
-    protected ?array $tyroPrivilegeSlugsCache = null;
+    protected ?array $shieldPrivilegeSlugsCache = null;
 
-    protected ?int $tyroRoleSlugsVersion = null;
+    protected ?int $shieldRoleSlugsVersion = null;
 
-    protected ?int $tyroPrivilegeSlugsVersion = null;
+    protected ?int $shieldPrivilegeSlugsVersion = null;
 
     /**
      * Get the roles relationship for the user.
@@ -24,7 +24,7 @@ trait HasGuardianRoles {
     public function roles(): BelongsToMany {
         return $this->belongsToMany(
             Role::class,
-            config('tyro.tables.pivot', 'user_roles')
+            config('shield.tables.pivot', 'user_roles')
         )->using(UserRole::class)->withTimestamps();
     }
 
@@ -33,8 +33,8 @@ trait HasGuardianRoles {
      */
     public function assignRole(Role $role): void {
         $this->roles()->syncWithoutDetaching($role);
-        GuardianCache::forgetUser($this->getKey());
-        $this->flushTyroRuntimeCache();
+        ShieldCache::forgetUser($this->getKey());
+        $this->flushShieldRuntimeCache();
     }
 
     /**
@@ -42,15 +42,15 @@ trait HasGuardianRoles {
      */
     public function removeRole(Role $role): void {
         $this->roles()->detach($role);
-        GuardianCache::forgetUser($this->getKey());
-        $this->flushTyroRuntimeCache();
+        ShieldCache::forgetUser($this->getKey());
+        $this->flushShieldRuntimeCache();
     }
 
     /**
      * Check if the user has a specific role.
      */
     public function hasRole(string $role): bool {
-        $userRoles = $this->tyroRoleSlugs();
+        $userRoles = $this->shieldRoleSlugs();
         return in_array($role, $userRoles, true) || in_array('*', $userRoles, true);
     }
 
@@ -58,7 +58,7 @@ trait HasGuardianRoles {
      * Check if the user has all of the given roles.
      */
     public function hasRoles(array $roles): bool {
-        $userRoles = $this->tyroRoleSlugs();
+        $userRoles = $this->shieldRoleSlugs();
         if (in_array('*', $userRoles, true)) {
             return true;
         }
@@ -88,7 +88,7 @@ trait HasGuardianRoles {
      * Check if the user has all of the given privileges.
      */
     public function hasPrivileges(array $privileges): bool {
-        $userPrivileges = $this->tyroPrivilegeSlugs();
+        $userPrivileges = $this->shieldPrivilegeSlugs();
         if (in_array('*', $userPrivileges, true)) {
             return true;
         }
@@ -113,54 +113,54 @@ trait HasGuardianRoles {
      * Check if the user has a specific privilege.
      */
     public function hasPrivilege(string $ability): bool {
-        $userPrivileges = $this->tyroPrivilegeSlugs();
+        $userPrivileges = $this->shieldPrivilegeSlugs();
         return in_array($ability, $userPrivileges, true) || in_array('*', $userPrivileges, true);
     }
 
     /**
      * Get all role slugs for the user (cached).
      */
-    public function tyroRoleSlugs(): array {
+    public function shieldRoleSlugs(): array {
         $userId = $this->getKey();
-        $runtimeVersion = GuardianCache::runtimeVersion($userId);
-        if ($this->tyroRoleSlugsCache !== null && $this->tyroRoleSlugsVersion === $runtimeVersion) {
-            return $this->tyroRoleSlugsCache;
+        $runtimeVersion = ShieldCache::runtimeVersion($userId);
+        if ($this->shieldRoleSlugsCache !== null && $this->shieldRoleSlugsVersion === $runtimeVersion) {
+            return $this->shieldRoleSlugsCache;
         }
 
-        $slugs = $this->getTyroSlugsData($userId, 'roles');
+        $slugs = $this->getShieldSlugsData($userId, 'roles');
 
-        $this->tyroRoleSlugsCache = $slugs;
-        $this->tyroRoleSlugsVersion = $runtimeVersion;
+        $this->shieldRoleSlugsCache = $slugs;
+        $this->shieldRoleSlugsVersion = $runtimeVersion;
         return $slugs;
     }
 
     /**
      * Get all privilege slugs for the user (cached).
      */
-    public function tyroPrivilegeSlugs(): array {
+    public function shieldPrivilegeSlugs(): array {
         $userId = $this->getKey();
-        $runtimeVersion = GuardianCache::runtimeVersion($userId);
-        if ($this->tyroPrivilegeSlugsCache !== null && $this->tyroPrivilegeSlugsVersion === $runtimeVersion) {
-            return $this->tyroPrivilegeSlugsCache;
+        $runtimeVersion = ShieldCache::runtimeVersion($userId);
+        if ($this->shieldPrivilegeSlugsCache !== null && $this->shieldPrivilegeSlugsVersion === $runtimeVersion) {
+            return $this->shieldPrivilegeSlugsCache;
         }
 
-        $slugs = $this->getTyroSlugsData($userId, 'privileges');
+        $slugs = $this->getShieldSlugsData($userId, 'privileges');
 
-        $this->tyroPrivilegeSlugsCache = $slugs;
-        $this->tyroPrivilegeSlugsVersion = $runtimeVersion;
+        $this->shieldPrivilegeSlugsCache = $slugs;
+        $this->shieldPrivilegeSlugsVersion = $runtimeVersion;
         return $slugs;
     }
 
     /**
-     * Get Tyro slugs data with optimized caching and relation handling.
+     * Get Shield slugs data with optimized caching and relation handling.
      */
-    protected function getTyroSlugsData(int $userId, string $type): array {
+    protected function getShieldSlugsData(int $userId, string $type): array {
         if ($type === 'roles') {
             // Handle role slugs
             if ($this->relationLoaded('roles')) {
                 $slugs = $this->roles->pluck('slug')->all();
             } else {
-                $slugs = GuardianCache::rememberRoleSlugs($userId, function () {
+                $slugs = ShieldCache::rememberRoleSlugs($userId, function () {
                     return $this->roles()->pluck('slug')->all();
                 });
             }
@@ -172,7 +172,7 @@ trait HasGuardianRoles {
                     ->pluck('slug')
                     ->all();
             } else {
-                $slugs = GuardianCache::rememberPrivilegeSlugs($userId, function () {
+                $slugs = ShieldCache::rememberPrivilegeSlugs($userId, function () {
                     return $this->roles()
                         ->with('privileges:id,slug')
                         ->get()
@@ -190,11 +190,11 @@ trait HasGuardianRoles {
     /**
      * Flush the runtime cache for role and privilege slugs.
      */
-    protected function flushTyroRuntimeCache(): void {
-        $this->tyroRoleSlugsCache = null;
-        $this->tyroPrivilegeSlugsCache = null;
-        $this->tyroRoleSlugsVersion = null;
-        $this->tyroPrivilegeSlugsVersion = null;
+    protected function flushShieldRuntimeCache(): void {
+        $this->shieldRoleSlugsCache = null;
+        $this->shieldPrivilegeSlugsCache = null;
+        $this->shieldRoleSlugsVersion = null;
+        $this->shieldPrivilegeSlugsVersion = null;
     }
 
     /**

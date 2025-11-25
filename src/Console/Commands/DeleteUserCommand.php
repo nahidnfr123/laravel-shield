@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class DeleteUserCommand extends BaseTyroCommand
+class DeleteUserCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:delete-user {--user=} {--force}';
+    protected $signature = 'shield:delete-user {--user=} {--force}';
 
     protected $description = 'Delete a user while respecting the admin guardrails';
 
@@ -38,7 +38,7 @@ class DeleteUserCommand extends BaseTyroCommand
             }
         }
 
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
         $user->delete();
 
         $this->info(sprintf('User %s deleted.', $user->email));

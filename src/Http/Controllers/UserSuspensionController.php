@@ -1,6 +1,6 @@
 <?php
 
-namespace NahidFerdous\Guardian\Http\Controllers;
+namespace NahidFerdous\Shield\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -69,7 +69,7 @@ class UserSuspensionController extends Controller
 
     protected function userClass(): string
     {
-        return config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        return config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }
 
     protected function resolveUser($user)

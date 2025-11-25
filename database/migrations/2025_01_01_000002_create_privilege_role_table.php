@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('tyro.tables.role_privilege', 'privilege_role'), function (Blueprint $table) {
+        Schema::create(config('shield.tables.role_privilege', 'privilege_role'), function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained(config('tyro.tables.roles', 'roles'))->cascadeOnDelete();
-            $table->foreignId('privilege_id')->constrained(config('tyro.tables.privileges', 'privileges'))->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained(config('shield.tables.roles', 'roles'))->cascadeOnDelete();
+            $table->foreignId('privilege_id')->constrained(config('shield.tables.privileges', 'privileges'))->cascadeOnDelete();
             $table->timestamps();
             $table->unique(['role_id', 'privilege_id']);
         });
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('tyro.tables.role_privilege', 'privilege_role'));
+        Schema::dropIfExists(config('shield.tables.role_privilege', 'privilege_role'));
     }
 };

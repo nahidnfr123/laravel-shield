@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Laravel\Sanctum\PersonalAccessToken;
 
-class LogoutCommand extends BaseTyroCommand
+class LogoutCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:logout {token?} {--token=}';
+    protected $signature = 'shield:logout {token?} {--token=}';
 
     protected $description = 'Delete a single Sanctum token (log out the corresponding user session)';
 

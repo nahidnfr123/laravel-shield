@@ -1,16 +1,16 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Privilege;
+use NahidFerdous\Shield\Models\Privilege;
 
-class AddPrivilegeCommand extends BaseTyroCommand
+class AddPrivilegeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:add-privilege {slug? : Unique slug for the privilege}
+    protected $signature = 'shield:add-privilege {slug? : Unique slug for the privilege}
         {--name= : Readable name for the privilege}
         {--description= : Optional description for the privilege}';
 
-    protected $description = 'Create a new Tyro privilege record';
+    protected $description = 'Create a new Shield privilege record';
 
     public function handle(): int
     {

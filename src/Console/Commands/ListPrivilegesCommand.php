@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Privilege;
+use NahidFerdous\Shield\Models\Privilege;
 
-class ListPrivilegesCommand extends BaseTyroCommand
+class ListPrivilegesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:privileges';
+    protected $signature = 'shield:privileges';
 
-    protected $description = 'Display all Tyro privileges and their roles';
+    protected $description = 'Display all Shield privileges and their roles';
 
     public function handle(): int
     {

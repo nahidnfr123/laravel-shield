@@ -1,18 +1,18 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Process\Process;
 
-abstract class BaseTyroCommand extends Command
+abstract class BaseShieldCommand extends Command
 {
     protected function userClass(): string
     {
-        return (string) config('tyro.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
+        return (string) config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
     }
 
     protected function newUserQuery()
@@ -65,7 +65,7 @@ abstract class BaseTyroCommand extends Command
 
     protected function defaultRole(): ?Role
     {
-        return Role::where('slug', config('tyro.default_user_role_slug', 'user'))->first();
+        return Role::where('slug', config('shield.default_user_role_slug', 'user'))->first();
     }
 
     protected function openUrl(string $url): bool

@@ -1,16 +1,16 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class CreateUserCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:create-user {--name=} {--email=} {--password=}';
+class CreateUserCommand extends BaseShieldCommand {
+    protected $signature = 'shield:create-user {--name=} {--email=} {--password=}';
 
-    protected $description = 'Create a new user and attach Tyro\'s default role';
+    protected $description = 'Create a new user and attach Shield\'s default role';
 
     public function handle(): int {
         $name = $this->option('name') ?? $this->ask('Name (optional)', null);
@@ -61,7 +61,7 @@ class CreateUserCommand extends BaseTyroCommand {
             $defaultRole = $this->defaultRole();
             if ($defaultRole) {
                 $user->roles()->syncWithoutDetaching($defaultRole);
-                GuardianCache::forgetUser($user);
+                ShieldCache::forgetUser($user);
             }
         }
 

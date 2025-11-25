@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class UserRolesCommand extends BaseTyroCommand
+class UserRolesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:user-roles {user? : User ID or email}';
+    protected $signature = 'shield:user-roles {user? : User ID or email}';
 
-    protected $description = 'Display a user\'s Tyro roles and their attached privileges';
+    protected $description = 'Display a user\'s Shield roles and their attached privileges';
 
     public function handle(): int
     {
@@ -27,7 +27,7 @@ class UserRolesCommand extends BaseTyroCommand
         }
 
         if (! method_exists($user, 'roles')) {
-            $this->error('The configured user model does not include Tyro roles.');
+            $this->error('The configured user model does not include Shield roles.');
 
             return self::FAILURE;
         }

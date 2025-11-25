@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class RoleUsersCommand extends BaseTyroCommand
+class RoleUsersCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:role-users {role? : Role ID or slug}';
+    protected $signature = 'shield:role-users {role? : Role ID or slug}';
 
-    protected $description = 'Display every user assigned to the given Tyro role';
+    protected $description = 'Display every user assigned to the given Shield role';
 
     public function handle(): int
     {

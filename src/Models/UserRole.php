@@ -1,8 +1,8 @@
 <?php
 
-namespace NahidFerdous\Guardian\Models;
+namespace NahidFerdous\Shield\Models;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -19,16 +19,16 @@ class UserRole extends Pivot
     protected static function booted(): void
     {
         static::saved(function (self $pivot): void {
-            GuardianCache::forgetUser($pivot->user_id);
+            ShieldCache::forgetUser($pivot->user_id);
         });
 
         static::deleted(function (self $pivot): void {
-            GuardianCache::forgetUser($pivot->user_id);
+            ShieldCache::forgetUser($pivot->user_id);
         });
     }
 
     public function getTable()
     {
-        return config('tyro.tables.pivot', parent::getTable());
+        return config('shield.tables.pivot', parent::getTable());
     }
 }

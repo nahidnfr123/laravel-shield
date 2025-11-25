@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Carbon;
 
-class SuspendedUsersCommand extends BaseTyroCommand
+class SuspendedUsersCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:suspended-users';
+    protected $signature = 'shield:suspended-users';
 
-    protected $description = 'List every Tyro user currently suspended';
+    protected $description = 'List every Shield user currently suspended';
 
     public function handle(): int
     {

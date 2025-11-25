@@ -1,6 +1,6 @@
 {
-    "name": "NahidFerdous/tyro",
-    "description": "Tyro - zero-config API boilerplate packaged for Laravel 12 projects",
+    "name": "NahidFerdous/shield",
+    "description": "Shield - zero-config API boilerplate packaged for Laravel 12 projects",
     "keywords": [
         "laravel",
         "sanctum",
@@ -23,13 +23,13 @@
     },
     "autoload": {
         "psr-4": {
-            "NahidFerdous\\Tyro\\": "src/",
-            "NahidFerdous\\Tyro\\Database\\": "database/"
+            "NahidFerdous\\Shield\\": "src/",
+            "NahidFerdous\\Shield\\Database\\": "database/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NahidFerdous\\Tyro\\Tests\\": "tests/"
+            "NahidFerdous\\Shield\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -38,7 +38,7 @@
     "extra": {
         "laravel": {
             "providers": [
-              "GuardianServiceProvider"
+              "ShieldServiceProvider"
             ]
         }
     },

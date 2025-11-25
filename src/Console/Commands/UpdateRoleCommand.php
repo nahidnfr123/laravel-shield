@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Support\Str;
 
-class UpdateRoleCommand extends BaseTyroCommand
+class UpdateRoleCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:update-role {--role=} {--name=} {--slug=}';
+    protected $signature = 'shield:update-role {--role=} {--name=} {--slug=}';
 
     protected $description = 'Update a role name or slug';
 
@@ -58,7 +58,7 @@ class UpdateRoleCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
+        $protected = config('shield.protected_role_slugs', ['admin', 'super-admin']);
         if ($slug !== $role->slug && in_array($role->slug, $protected, true)) {
             $this->error('This role slug is protected and cannot be changed.');
 
@@ -86,7 +86,7 @@ class UpdateRoleCommand extends BaseTyroCommand
             'slug' => $slug,
         ]);
 
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         $this->info(sprintf('Role "%s" updated.', $role->slug));
 

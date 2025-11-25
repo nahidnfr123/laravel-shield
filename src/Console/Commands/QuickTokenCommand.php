@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class QuickTokenCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:quick-token {user? : User ID or email} {--name=Tyro Quick Token : Token name}';
+class QuickTokenCommand extends BaseShieldCommand {
+    protected $signature = 'shield:quick-token {user? : User ID or email} {--name=Shield Quick Token : Token name}';
 
     protected $description = 'Mint a Sanctum token for a user without prompting for credentials';
 
     public function handle(): int {
         $identifier = $this->argument('user') ?? $this->ask('User ID or email');
-        $tokenName = $this->option('name') ?: 'Tyro Quick Token';
+        $tokenName = $this->option('name') ?: 'Shield Quick Token';
 
         if (!$identifier) {
             $this->error('A user identifier is required.');
@@ -44,7 +44,7 @@ class QuickTokenCommand extends BaseTyroCommand {
             return self::FAILURE;
         }
 
-        if (config('tyro.delete_previous_access_tokens_on_login', false)) {
+        if (config('shield.delete_previous_access_tokens_on_login', false)) {
             $user->tokens()->delete();
         }
 

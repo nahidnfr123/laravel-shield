@@ -1,6 +1,6 @@
 <?php
 
-namespace NahidFerdous\Guardian\Models;
+namespace NahidFerdous\Shield\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,14 +16,14 @@ class Privilege extends Model
 
     public function getTable()
     {
-        return config('tyro.tables.privileges', parent::getTable());
+        return config('shield.tables.privileges', parent::getTable());
     }
 
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(
             Role::class,
-            config('tyro.tables.role_privilege', 'privilege_role')
+            config('shield.tables.role_privilege', 'privilege_role')
         )->using(RolePrivilege::class)->withTimestamps();
     }
 }

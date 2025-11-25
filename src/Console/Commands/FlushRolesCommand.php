@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class FlushRolesCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:purge-roles {--force : Run without confirmation}';
+class FlushRolesCommand extends BaseShieldCommand {
+    protected $signature = 'shield:purge-roles {--force : Run without confirmation}';
 
     protected $description = 'Truncate the roles and pivot tables without re-seeding them';
 
@@ -18,14 +18,14 @@ class FlushRolesCommand extends BaseTyroCommand {
             return self::SUCCESS;
         }
 
-        $rolesTable = config('tyro.tables.roles', 'roles');
-        $pivotTable = config('tyro.tables.pivot', 'user_roles');
+        $rolesTable = config('shield.tables.roles', 'roles');
+        $pivotTable = config('shield.tables.pivot', 'user_roles');
 
         Schema::disableForeignKeyConstraints();
         DB::table($pivotTable)->truncate();
         DB::table($rolesTable)->truncate();
         Schema::enableForeignKeyConstraints();
-        GuardianCache::forgetAllUsersWithRoles();
+        ShieldCache::forgetAllUsersWithRoles();
 
         $this->info('Roles and pivot tables truncated.');
 

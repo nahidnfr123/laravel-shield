@@ -1,19 +1,19 @@
-# Contributing to Tyro
+# Contributing to Shield
 
-Thank you for considering contributing to Tyro! We appreciate your help in making this package better for the Laravel community.
+Thank you for considering contributing to Shield! We appreciate your help in making this package better for the Laravel community.
 
 ## How to Contribute
 
 ### Reporting Bugs
 
-Before creating a bug report, please check [existing issues](https://github.com/NahidFerdous/tyro/issues) to avoid duplicates.
+Before creating a bug report, please check [existing issues](https://github.com/NahidFerdous/shield/issues) to avoid duplicates.
 
 When reporting a bug, include:
 
 -   Clear description of the issue
 -   Steps to reproduce
 -   Expected vs actual behavior
--   Environment details (PHP version, Laravel version, Tyro version, OS)
+-   Environment details (PHP version, Laravel version, Shield version, OS)
 
 ### Suggesting Features
 
@@ -45,8 +45,8 @@ We welcome feature suggestions! Please:
 1. Clone your fork:
 
     ```bash
-    git clone https://github.com/YOUR_USERNAME/tyro.git
-    cd tyro
+    git clone https://github.com/YOUR_USERNAME/shield.git
+    cd shield
     ```
 
 2. Install dependencies:
@@ -62,7 +62,7 @@ We welcome feature suggestions! Please:
 
 ### Testing
 
-Tyro uses Pest for testing. Run the test suite with:
+Shield uses Pest for testing. Run the test suite with:
 
 ```bash
 composer test
@@ -125,7 +125,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) format:
 **Examples:**
 
 ```
-feat: add tyro:export-roles command
+feat: add shield:export-roles command
 fix: prevent suspended users from logging in
 docs: update installation instructions
 ```
@@ -140,8 +140,8 @@ docs: update installation instructions
 ## Getting Help
 
 -   Check the [README](README.md) for documentation
--   Search [existing issues](https://github.com/NahidFerdous/tyro/issues)
--   Open a [discussion](https://github.com/NahidFerdous/tyro/discussions)
+-   Search [existing issues](https://github.com/NahidFerdous/shield/issues)
+-   Open a [discussion](https://github.com/NahidFerdous/shield/discussions)
 
 ## License
 
@@ -149,4 +149,4 @@ By contributing, you agree that your contributions will be licensed under the [M
 
 ---
 
-Thank you for contributing to Tyro! 🚀
+Thank you for contributing to Shield! 🚀

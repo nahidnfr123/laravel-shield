@@ -1,19 +1,19 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-class DocCommand extends BaseTyroCommand
+class DocCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:doc {--no-open : Only print the docs URL}';
+    protected $signature = 'shield:doc {--no-open : Only print the docs URL}';
 
-    protected $description = 'Open the Tyro documentation in your browser';
+    protected $description = 'Open the Shield documentation in your browser';
 
     public function handle(): int
     {
-        $url = 'https://github.com/NahidFerdous/tyro';
+        $url = 'https://github.com/NahidFerdous/shield';
 
         if (! $this->option('no-open') && $this->openUrl($url)) {
-            $this->info('Opening Tyro documentation...');
+            $this->info('Opening Shield documentation...');
         } else {
             $this->line('Docs: '.$url);
         }

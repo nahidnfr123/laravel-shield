@@ -1,12 +1,12 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class DeleteRoleCommand extends BaseTyroCommand
+class DeleteRoleCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:delete-role {--role=} {--force}';
+    protected $signature = 'shield:delete-role {--role=} {--force}';
 
     protected $description = 'Delete a role (except the protected ones)';
 
@@ -21,7 +21,7 @@ class DeleteRoleCommand extends BaseTyroCommand
             return self::FAILURE;
         }
 
-        $protected = config('tyro.protected_role_slugs', ['admin', 'super-admin']);
+        $protected = config('shield.protected_role_slugs', ['admin', 'super-admin']);
         if (in_array($role->slug, $protected, true)) {
             $this->error('This role is protected and cannot be deleted.');
 
@@ -34,7 +34,7 @@ class DeleteRoleCommand extends BaseTyroCommand
             return self::SUCCESS;
         }
 
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
         $role->users()->detach();
         $role->delete();
 

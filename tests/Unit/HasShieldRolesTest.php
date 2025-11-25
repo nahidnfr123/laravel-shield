@@ -1,18 +1,18 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Unit;
+namespace NahidFerdous\Shield\Tests\Unit;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Support\GuardianCache;
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Support\Facades\Cache;
 
-class HasGuardianRolesTest extends TestCase
+class HasShieldRolesTest extends TestCase
 {
     public function test_user_can_returns_true_when_role_has_privilege(): void
     {
-        $userClass = config('tyro.models.user');
+        $userClass = config('shield.models.user');
         $user = $userClass::factory()->create();
 
         $role = Role::where('slug', 'user')->firstOrFail();
@@ -29,7 +29,7 @@ class HasGuardianRolesTest extends TestCase
 
     public function test_user_can_falls_back_to_gate_when_privilege_missing(): void
     {
-        $userClass = config('tyro.models.user');
+        $userClass = config('shield.models.user');
         $user = $userClass::factory()->create();
 
         $this->assertFalse($user->can('nonexistent.privilege'));
@@ -37,10 +37,10 @@ class HasGuardianRolesTest extends TestCase
 
     public function test_role_slug_cache_requires_invalidation(): void
     {
-        config(['cache.default' => 'array', 'tyro.cache.store' => 'array', 'tyro.cache.enabled' => true]);
+        config(['cache.default' => 'array', 'shield.cache.store' => 'array', 'shield.cache.enabled' => true]);
         Cache::store('array')->clear();
 
-        $userClass = config('tyro.models.user');
+        $userClass = config('shield.models.user');
         $user = $userClass::factory()->create();
         $role = Role::where('slug', 'user')->firstOrFail();
 
@@ -50,17 +50,17 @@ class HasGuardianRolesTest extends TestCase
         $user->roles()->detach($role);
         $this->assertTrue($user->fresh()->hasRole('user'));
 
-        GuardianCache::forgetUser($user);
+        ShieldCache::forgetUser($user);
 
         $this->assertFalse($user->fresh()->hasRole('user'));
     }
 
     public function test_privilege_cache_flushes_when_role_cache_cleared(): void
     {
-        config(['cache.default' => 'array', 'tyro.cache.store' => 'array', 'tyro.cache.enabled' => true]);
+        config(['cache.default' => 'array', 'shield.cache.store' => 'array', 'shield.cache.enabled' => true]);
         Cache::store('array')->clear();
 
-        $userClass = config('tyro.models.user');
+        $userClass = config('shield.models.user');
         $user = $userClass::factory()->create();
         $role = Role::where('slug', 'user')->firstOrFail();
         $privilege = Privilege::factory()->create([
@@ -76,7 +76,7 @@ class HasGuardianRolesTest extends TestCase
         $role->privileges()->detach($privilege);
         $this->assertTrue($user->fresh()->can('custom.export'));
 
-        GuardianCache::forgetUsersByRole($role);
+        ShieldCache::forgetUsersByRole($role);
 
         $this->assertFalse($user->fresh()->can('custom.export'));
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
 use Illuminate\Support\Str;
 
-class PrepareUserModelCommand extends BaseTyroCommand {
-    protected $signature = 'tyro:prepare-user-model {--path= : Override the location of the User model file}';
+class PrepareUserModelCommand extends BaseShieldCommand {
+    protected $signature = 'shield:prepare-user-model {--path= : Override the location of the User model file}';
 
-    protected $description = 'Add HasApiTokens and HasGuardianRoles traits to the default User model';
+    protected $description = 'Add HasApiTokens and HasShieldRoles traits to the default User model';
 
     public function handle(): int {
         $path = $this->option('path') ?: app_path('Models/User.php');
@@ -40,7 +40,7 @@ class PrepareUserModelCommand extends BaseTyroCommand {
     protected function ensureImports(string $contents): string {
         $imports = [
             'Laravel\\Sanctum\\HasApiTokens',
-            'NahidFerdous\\Tyro\\Concerns\\HasGuardianRoles',
+            'NahidFerdous\\Shield\\Concerns\\HasShieldRoles',
         ];
 
         $missing = array_filter($imports, fn($import) => !Str::contains($contents, "use {$import};"));
@@ -90,8 +90,8 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         $classStart = $classMatch[0][1] + strlen($classMatch[0][0]);
         $classBody = substr($contents, $classStart);
 
-        if (Str::contains($classBody, 'HasApiTokens') && Str::contains($classBody, 'HasGuardianRoles')) {
-            if (preg_match('/use\s+[^;]*HasApiTokens[^;]*HasGuardianRoles[^;]*;/', $classBody)) {
+        if (Str::contains($classBody, 'HasApiTokens') && Str::contains($classBody, 'HasShieldRoles')) {
+            if (preg_match('/use\s+[^;]*HasApiTokens[^;]*HasShieldRoles[^;]*;/', $classBody)) {
                 return $contents;
             }
         }
@@ -99,8 +99,8 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         if (preg_match('/use\s+[^;]*HasApiTokens[^;]*;/', $classBody, $match, PREG_OFFSET_CAPTURE)) {
             $line = $match[0][0];
 
-            if (!Str::contains($line, 'HasGuardianRoles')) {
-                $replacement = rtrim(substr($line, 0, -1)) . ', HasGuardianRoles;';
+            if (!Str::contains($line, 'HasShieldRoles')) {
+                $replacement = rtrim(substr($line, 0, -1)) . ', HasShieldRoles;';
 
                 return substr_replace($contents, $replacement, $classStart + $match[0][1], strlen($line));
             }
@@ -108,7 +108,7 @@ class PrepareUserModelCommand extends BaseTyroCommand {
             return $contents;
         }
 
-        if (preg_match('/use\s+[^;]*HasGuardianRoles[^;]*;/', $classBody, $match, PREG_OFFSET_CAPTURE)) {
+        if (preg_match('/use\s+[^;]*HasShieldRoles[^;]*;/', $classBody, $match, PREG_OFFSET_CAPTURE)) {
             $line = $match[0][0];
 
             if (!Str::contains($line, 'HasApiTokens')) {
@@ -121,7 +121,7 @@ class PrepareUserModelCommand extends BaseTyroCommand {
         }
 
         $lineEnding = str_contains($contents, "\r\n") ? "\r\n" : "\n";
-        $insertion = $lineEnding . '    use HasApiTokens, HasGuardianRoles;' . $lineEnding . $lineEnding;
+        $insertion = $lineEnding . '    use HasApiTokens, HasShieldRoles;' . $lineEnding . $lineEnding;
 
         return substr_replace($contents, $insertion, $classStart, 0);
     }

@@ -1,17 +1,17 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class UpdatePrivilegeCommand extends BaseTyroCommand
+class UpdatePrivilegeCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:update-privilege {--privilege=} {--name=} {--slug=} {--description=}';
+    protected $signature = 'shield:update-privilege {--privilege=} {--name=} {--slug=} {--description=}';
 
     protected $description = 'Update an existing privilege record';
 
-    // protected $aliases = ['tyro:update:privilege'];
+    // protected $aliases = ['shield:update:privilege'];
 
     public function handle(): int
     {
@@ -78,7 +78,7 @@ class UpdatePrivilegeCommand extends BaseTyroCommand
             'description' => $description,
         ]);
 
-        GuardianCache::forgetUsersByPrivilege($privilege);
+        ShieldCache::forgetUsersByPrivilege($privilege);
 
         $this->info(sprintf('Privilege "%s" updated.', $privilege->slug));
 

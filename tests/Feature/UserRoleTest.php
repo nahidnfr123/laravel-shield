@@ -1,10 +1,10 @@
 <?php
 
-namespace NahidFerdous\Guardian\Tests\Feature;
+namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Guardian\Models\Role;
-use NahidFerdous\Guardian\Tests\Fixtures\User;
-use NahidFerdous\Guardian\Tests\TestCase;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Tests\Fixtures\User;
+use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\AssertableJson;
 
@@ -15,8 +15,8 @@ class UserRoleTest extends TestCase {
         parent::setUp();
 
         $response = $this->postJson('/api/login', [
-            'email' => 'admin@tyro.project',
-            'password' => 'tyro',
+            'email' => 'admin@shield.project',
+            'password' => 'shield',
         ]);
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -37,7 +37,7 @@ class UserRoleTest extends TestCase {
     public function test_assign_role_to_user(): void {
         $newUser = User::create([
             'name' => 'Test User',
-            'email' => 'testuser@tyro.project',
+            'email' => 'testuser@shield.project',
             'password' => Hash::make('abcd'),
         ]);
         $newUser->roles()->attach(Role::where('slug', 'user')->first());
@@ -52,7 +52,7 @@ class UserRoleTest extends TestCase {
     public function test_remove_role_from_user(): void {
         $newUser = User::create([
             'name' => 'Test User 2',
-            'email' => 'testuser2@tyro.project',
+            'email' => 'testuser2@shield.project',
             'password' => Hash::make('abcd'),
         ]);
         $newUser->roles()->attach(Role::where('slug', 'user')->first());

@@ -1,15 +1,15 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Database\Seeders\RoleSeeder;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Database\Seeders\RoleSeeder;
+use NahidFerdous\Shield\Support\ShieldCache;
 
-class SeedRolesCommand extends BaseTyroCommand
+class SeedRolesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:seed-roles {--force : Skip confirmation even though this truncates the roles table}';
+    protected $signature = 'shield:seed-roles {--force : Skip confirmation even though this truncates the roles table}';
 
-    protected $description = 'Re-seed the Tyro roles list (truncates the roles table)';
+    protected $description = 'Re-seed the Shield roles list (truncates the roles table)';
 
     public function handle(): int
     {
@@ -22,9 +22,9 @@ class SeedRolesCommand extends BaseTyroCommand
         /** @var RoleSeeder $seeder */
         $seeder = $this->laravel->make(RoleSeeder::class);
         $seeder->run();
-        GuardianCache::forgetAllUsersWithRoles();
+        ShieldCache::forgetAllUsersWithRoles();
 
-        $this->info('Default Tyro roles have been re-seeded.');
+        $this->info('Default Shield roles have been re-seeded.');
 
         return self::SUCCESS;
     }

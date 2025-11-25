@@ -1,14 +1,14 @@
 <?php
 
-namespace NahidFerdous\Guardian\Console\Commands;
+namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Guardian\Models\Privilege;
-use NahidFerdous\Guardian\Support\GuardianCache;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Support\Facades\DB;
 
-class PurgePrivilegesCommand extends BaseTyroCommand
+class PurgePrivilegesCommand extends BaseShieldCommand
 {
-    protected $signature = 'tyro:purge-privileges {--force : Skip confirmation prompt}';
+    protected $signature = 'shield:purge-privileges {--force : Skip confirmation prompt}';
 
     protected $description = 'Delete every privilege record and detach them from roles';
 
@@ -20,9 +20,9 @@ class PurgePrivilegesCommand extends BaseTyroCommand
             return self::SUCCESS;
         }
 
-        DB::table(config('tyro.tables.role_privilege', 'privilege_role'))->truncate();
+        DB::table(config('shield.tables.role_privilege', 'privilege_role'))->truncate();
         $deleted = Privilege::query()->delete();
-        GuardianCache::forgetAllUsersWithRoles();
+        ShieldCache::forgetAllUsersWithRoles();
 
         $this->info("Deleted {$deleted} privilege(s).");
 
