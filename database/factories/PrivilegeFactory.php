@@ -2,8 +2,8 @@
 
 namespace NahidFerdous\Shield\Database\Factories;
 
-use NahidFerdous\Shield\Models\Privilege;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use NahidFerdous\Shield\Models\Privilege;
 
 /**
  * @extends Factory<Privilege>

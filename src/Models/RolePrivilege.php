@@ -2,9 +2,9 @@
 
 namespace NahidFerdous\Shield\Models;
 
-use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use NahidFerdous\Shield\Support\ShieldCache;
 
 class RolePrivilege extends Pivot
 {

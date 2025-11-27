@@ -5,13 +5,15 @@ namespace NahidFerdous\Shield\Console\Commands;
 use NahidFerdous\Shield\Database\Seeders\PrivilegeSeeder;
 use NahidFerdous\Shield\Support\ShieldCache;
 
-class SeedPrivilegesCommand extends BaseShieldCommand {
+class SeedPrivilegesCommand extends BaseShieldCommand
+{
     protected $signature = 'shield:seed-privileges {--force : Skip confirmation even though this overwrites privileges and role mappings}';
 
     protected $description = 'Re-seed Shield\'s default privilege definitions and role assignments';
 
-    public function handle(): int {
-        if (!$this->option('force') && !$this->confirm('This will overwrite existing privilege definitions and role mappings. Continue?', false)) {
+    public function handle(): int
+    {
+        if (! $this->option('force') && ! $this->confirm('This will overwrite existing privilege definitions and role mappings. Continue?', false)) {
             $this->warn('Operation cancelled.');
 
             return self::SUCCESS;

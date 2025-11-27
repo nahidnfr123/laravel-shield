@@ -2,11 +2,11 @@
 
 namespace NahidFerdous\Shield\Support;
 
-use NahidFerdous\Shield\Models\Privilege;
-use NahidFerdous\Shield\Models\Role;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 
 class ShieldCache
 {

@@ -2,11 +2,11 @@
 
 namespace NahidFerdous\Shield\Tests\Unit;
 
-use NahidFerdous\Shield\Http\Middleware\ShieldLog;
-use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use NahidFerdous\Shield\Http\Middleware\ShieldLog;
+use NahidFerdous\Shield\Tests\TestCase;
 
 class ShieldLogTest extends TestCase
 {

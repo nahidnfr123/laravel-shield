@@ -2,8 +2,8 @@
 
 namespace NahidFerdous\Shield\Database\Seeders;
 
-use NahidFerdous\Shield\Models\Role;
 use Illuminate\Database\Seeder;
+use NahidFerdous\Shield\Models\Role;
 
 class RoleSeeder extends Seeder
 {

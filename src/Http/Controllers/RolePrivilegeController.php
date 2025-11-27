@@ -2,15 +2,18 @@
 
 namespace NahidFerdous\Shield\Http\Controllers;
 
-use NahidFerdous\Shield\Models\Privilege;
-use NahidFerdous\Shield\Models\Role;
-use NahidFerdous\Shield\Support\ShieldCache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Support\ShieldCache;
+use NahidFerdous\Shield\Traits\ApiResponseTrait;
 
 class RolePrivilegeController extends Controller
 {
+    use ApiResponseTrait;
+
     public function index(Role $role)
     {
         return $role->load('privileges');

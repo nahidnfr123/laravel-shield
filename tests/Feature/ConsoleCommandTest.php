@@ -2,20 +2,22 @@
 
 namespace NahidFerdous\Shield\Tests\Feature;
 
-use NahidFerdous\Shield\Models\Privilege;
-use NahidFerdous\Shield\Models\Role;
-use NahidFerdous\Shield\Tests\Fixtures\FakeInstallCommand;
-use NahidFerdous\Shield\Tests\TestCase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
+use NahidFerdous\Shield\Tests\Fixtures\FakeInstallCommand;
+use NahidFerdous\Shield\Tests\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ConsoleCommandTest extends TestCase {
-    public function test_create_user_command_creates_user(): void {
+class ConsoleCommandTest extends TestCase
+{
+    public function test_create_user_command_creates_user(): void
+    {
         $email = 'cli-user@example.com';
 
         $this->artisan('shield:create-user', [
@@ -29,13 +31,15 @@ class ConsoleCommandTest extends TestCase {
         ]);
     }
 
-    public function test_roles_command_outputs_roles(): void {
+    public function test_roles_command_outputs_roles(): void
+    {
         $this->artisan('shield:roles')
             ->expectsOutputToContain('Administrator')
             ->assertExitCode(0);
     }
 
-    public function test_roles_with_privileges_command_outputs_privileges(): void {
+    public function test_roles_with_privileges_command_outputs_privileges(): void
+    {
         $role = Role::where('slug', 'editor')->first();
         $privilege = Privilege::factory()->create([
             'slug' => 'content.review',
@@ -56,13 +60,15 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString('content.review', str_replace(PHP_EOL, '', $output));
     }
 
-    public function test_privileges_command_outputs_privileges(): void {
+    public function test_privileges_command_outputs_privileges(): void
+    {
         $this->artisan('shield:privileges')
             ->expectsOutputToContain('report.generate')
             ->assertExitCode(0);
     }
 
-    public function test_add_privilege_command_creates_privilege(): void {
+    public function test_add_privilege_command_creates_privilege(): void
+    {
         $this->artisan('shield:add-privilege', [
             'slug' => 'ci.build',
             '--name' => 'CI Build',
@@ -73,7 +79,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertDatabaseHas(config('shield.tables.privileges', 'privileges'), ['slug' => 'ci.build']);
     }
 
-    public function test_delete_privilege_command_deletes_privilege(): void {
+    public function test_delete_privilege_command_deletes_privilege(): void
+    {
         $privilege = Privilege::factory()->create([
             'slug' => 'obsolete.permission',
         ]);
@@ -87,7 +94,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertDatabaseMissing(config('shield.tables.privileges', 'privileges'), ['id' => $privilege->id]);
     }
 
-    public function test_delete_privilege_command_prompts_for_identifier(): void {
+    public function test_delete_privilege_command_prompts_for_identifier(): void
+    {
         $privilege = Privilege::factory()->create([
             'slug' => 'obsolete.prompt',
         ]);
@@ -100,7 +108,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertDatabaseMissing(config('shield.tables.privileges', 'privileges'), ['id' => $privilege->id]);
     }
 
-    public function test_attach_and_detach_privilege_commands(): void {
+    public function test_attach_and_detach_privilege_commands(): void
+    {
         $role = Role::where('slug', 'editor')->first();
         $privilege = Privilege::factory()->create([
             'slug' => 'content.feature',
@@ -123,7 +132,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertFalse($role->fresh()->privileges->contains('id', $privilege->id));
     }
 
-    public function test_attach_privilege_command_prompts_for_arguments(): void {
+    public function test_attach_privilege_command_prompts_for_arguments(): void
+    {
         $role = Role::where('slug', 'editor')->first();
         $privilege = Privilege::factory()->create([
             'slug' => 'content.workflow',
@@ -138,7 +148,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertTrue($role->fresh()->privileges->contains('slug', 'content.workflow'));
     }
 
-    public function test_detach_privilege_command_prompts_for_arguments(): void {
+    public function test_detach_privilege_command_prompts_for_arguments(): void
+    {
         $role = Role::where('slug', 'editor')->first();
         $privilege = Privilege::factory()->create([
             'slug' => 'content.clean',
@@ -155,7 +166,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertFalse($role->fresh()->privileges->contains('slug', 'content.clean'));
     }
 
-    public function test_purge_privileges_command_removes_all_privileges(): void {
+    public function test_purge_privileges_command_removes_all_privileges(): void
+    {
         Privilege::factory()->count(2)->create();
 
         $this->artisan('shield:purge-privileges', ['--force' => true])
@@ -165,7 +177,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(0, Privilege::count());
     }
 
-    public function test_login_command_displays_token(): void {
+    public function test_login_command_displays_token(): void
+    {
         $this->artisan('shield:login', [
             '--email' => 'admin@shield.project',
             '--password' => 'shield',
@@ -173,7 +186,8 @@ class ConsoleCommandTest extends TestCase {
             ->assertExitCode(0);
     }
 
-    public function test_login_command_accepts_user_id(): void {
+    public function test_login_command_accepts_user_id(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::where('email', 'admin@shield.project')->first();
 
@@ -184,13 +198,15 @@ class ConsoleCommandTest extends TestCase {
             ->assertExitCode(0);
     }
 
-    public function test_list_users_command_outputs_admin(): void {
+    public function test_list_users_command_outputs_admin(): void
+    {
         $this->artisan('shield:users')
             ->expectsOutputToContain('admin@shield.project')
             ->assertExitCode(0);
     }
 
-    public function test_users_with_roles_command_displays_role_ids(): void {
+    public function test_users_with_roles_command_displays_role_ids(): void
+    {
         $adminRole = Role::where('slug', 'admin')->first();
 
         $exitCode = Artisan::call('shield:users-with-roles');
@@ -198,11 +214,12 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(0, $exitCode);
         $this->assertStringContainsString('admin@shield.project', $output);
-        $this->assertStringContainsString('#' . $adminRole->id, $output);
+        $this->assertStringContainsString('#'.$adminRole->id, $output);
         $this->assertStringContainsString($adminRole->name, $output);
     }
 
-    public function test_role_users_command_lists_users_for_given_role(): void {
+    public function test_role_users_command_lists_users_for_given_role(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Role User',
@@ -222,7 +239,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString($user->name, $output);
     }
 
-    public function test_logout_command_revokes_single_token(): void {
+    public function test_logout_command_revokes_single_token(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::where('email', 'admin@shield.project')->first();
         $token = $user->createToken('Test CLI Token', ['admin'])->plainTextToken;
@@ -234,7 +252,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertEquals(0, $user->tokens()->count());
     }
 
-    public function test_quick_token_command_generates_token_by_user_id(): void {
+    public function test_quick_token_command_generates_token_by_user_id(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Quick Token User',
@@ -251,7 +270,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(1, $user->fresh()->tokens()->count());
     }
 
-    public function test_quick_token_command_assigns_role_and_privilege_abilities(): void {
+    public function test_quick_token_command_assigns_role_and_privilege_abilities(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Privilege Token User',
@@ -275,7 +295,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertContains('generate.pdf', $abilities);
     }
 
-    public function test_quick_token_command_blocks_suspended_users(): void {
+    public function test_quick_token_command_blocks_suspended_users(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Blocked Quick Token User',
@@ -293,7 +314,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(0, $user->fresh()->tokens()->count());
     }
 
-    public function test_update_user_command_updates_fields(): void {
+    public function test_update_user_command_updates_fields(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Update Me',
@@ -315,7 +337,8 @@ class ConsoleCommandTest extends TestCase {
         ]);
     }
 
-    public function test_update_user_command_updates_password_when_provided(): void {
+    public function test_update_user_command_updates_password_when_provided(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Password Update',
@@ -334,7 +357,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertTrue(Hash::check('new-secret', $user->fresh()->password));
     }
 
-    public function test_suspend_user_command_sets_and_lifts_suspension(): void {
+    public function test_suspend_user_command_sets_and_lifts_suspension(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Suspended User',
@@ -363,7 +387,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertNull($user->fresh()->suspended_at);
     }
 
-    public function test_suspend_user_command_revokes_tokens(): void {
+    public function test_suspend_user_command_revokes_tokens(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'email' => 'token-suspend@example.com',
@@ -385,7 +410,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(0, $user->fresh()->tokens()->count());
     }
 
-    public function test_unsuspend_user_command_lifts_suspension(): void {
+    public function test_unsuspend_user_command_lifts_suspension(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Unsuspension Target',
@@ -406,7 +432,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertNull($fresh->suspension_reason);
     }
 
-    public function test_suspended_users_command_lists_records(): void {
+    public function test_suspended_users_command_lists_records(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Suspended List User',
@@ -423,7 +450,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString('Testing', $output);
     }
 
-    public function test_users_command_marks_suspended_users(): void {
+    public function test_users_command_marks_suspended_users(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Color User',
@@ -440,7 +468,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString('Yes (Color testing)', $output);
     }
 
-    public function test_login_command_blocks_suspended_users(): void {
+    public function test_login_command_blocks_suspended_users(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'CLI Suspended',
@@ -457,7 +486,8 @@ class ConsoleCommandTest extends TestCase {
             ->assertExitCode(1);
     }
 
-    public function test_update_role_command_updates_name_and_slug(): void {
+    public function test_update_role_command_updates_name_and_slug(): void
+    {
         $role = Role::where('slug', 'editor')->first();
 
         $this->artisan('shield:update-role', [
@@ -474,7 +504,8 @@ class ConsoleCommandTest extends TestCase {
         ]);
     }
 
-    public function test_update_privilege_command_updates_record(): void {
+    public function test_update_privilege_command_updates_record(): void
+    {
         $privilege = Privilege::factory()->create([
             'slug' => 'docs.review',
             'name' => 'Docs Review',
@@ -496,7 +527,8 @@ class ConsoleCommandTest extends TestCase {
         ]);
     }
 
-    public function test_delete_user_role_command_detaches_role(): void {
+    public function test_delete_user_role_command_detaches_role(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::factory()->create([
             'name' => 'Role Test User',
@@ -516,7 +548,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertFalse($user->fresh()->roles->contains('id', $role->id));
     }
 
-    public function test_user_roles_command_lists_roles(): void {
+    public function test_user_roles_command_lists_roles(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::where('email', 'admin@shield.project')->first();
         $adminRole = Role::where('slug', 'admin')->first();
@@ -526,11 +559,12 @@ class ConsoleCommandTest extends TestCase {
 
         $this->assertSame(0, $exitCode);
         $this->assertStringContainsString($user->email, $output);
-        $this->assertStringContainsString('#' . $adminRole->id, $output);
+        $this->assertStringContainsString('#'.$adminRole->id, $output);
         $this->assertStringContainsString($adminRole->name, $output);
     }
 
-    public function test_user_privileges_command_lists_privileges(): void {
+    public function test_user_privileges_command_lists_privileges(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::where('email', 'admin@shield.project')->first();
 
@@ -542,7 +576,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertStringContainsString('report.generate', $output);
     }
 
-    public function test_logout_all_command_revokes_every_token(): void {
+    public function test_logout_all_command_revokes_every_token(): void
+    {
         $userClass = config('shield.models.user');
         $user = $userClass::where('email', 'admin@shield.project')->first();
         $user->createToken('First', ['admin']);
@@ -555,7 +590,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertEquals(0, $user->tokens()->count());
     }
 
-    public function test_logout_all_users_command_revokes_tokens_for_everyone(): void {
+    public function test_logout_all_users_command_revokes_tokens_for_everyone(): void
+    {
         $userClass = config('shield.models.user');
         $first = $userClass::factory()->create();
         $second = $userClass::factory()->create();
@@ -572,25 +608,29 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(0, PersonalAccessToken::count());
     }
 
-    public function test_about_command_outputs_summary(): void {
+    public function test_about_command_outputs_summary(): void
+    {
         $this->artisan('shield:about')
             ->expectsOutputToContain('Shield for Laravel')
             ->assertExitCode(0);
     }
 
-    public function test_doc_command_can_print_url(): void {
+    public function test_doc_command_can_print_url(): void
+    {
         $this->artisan('shield:doc', ['--no-open' => true])
-            ->expectsOutputToContain('https://github.com/NahidFerdous/shield')
+            ->expectsOutputToContain('https://github.com/nahidnfr123/laravel-shield')
             ->assertExitCode(0);
     }
 
-    public function test_postman_collection_command_can_print_url(): void {
+    public function test_postman_collection_command_can_print_url(): void
+    {
         $this->artisan('shield:postman-collection', ['--no-open' => true])
             ->expectsOutputToContain('Shield.postman_collection.json')
             ->assertExitCode(0);
     }
 
-    public function test_version_command_shows_value_from_config(): void {
+    public function test_version_command_shows_value_from_config(): void
+    {
         config(['shield.version' => '1.4.0-test']);
 
         $this->artisan('shield:version')
@@ -598,13 +638,15 @@ class ConsoleCommandTest extends TestCase {
             ->assertExitCode(0);
     }
 
-    public function test_install_command_runs_install_api_and_migrate(): void {
+    public function test_install_command_runs_install_api_and_migrate(): void
+    {
         $this->artisan('shield:install', ['--dry-run' => true])
             ->expectsOutputToContain('Dry run: skipped install:api and migrate.')
             ->assertExitCode(0);
     }
 
-    public function test_install_command_seeds_when_confirmed(): void {
+    public function test_install_command_seeds_when_confirmed(): void
+    {
         FakeInstallCommand::reset();
 
         $command = $this->app->make(FakeInstallCommand::class);
@@ -623,7 +665,8 @@ class ConsoleCommandTest extends TestCase {
         ], array_column(FakeInstallCommand::$recorded, 'command'));
     }
 
-    public function test_install_command_prepares_user_model_when_seed_declined(): void {
+    public function test_install_command_prepares_user_model_when_seed_declined(): void
+    {
         FakeInstallCommand::reset();
 
         $command = $this->app->make(FakeInstallCommand::class);
@@ -641,7 +684,8 @@ class ConsoleCommandTest extends TestCase {
         ], array_column(FakeInstallCommand::$recorded, 'command'));
     }
 
-    public function test_flush_roles_command_truncates_roles(): void {
+    public function test_flush_roles_command_truncates_roles(): void
+    {
         $this->assertGreaterThan(0, Role::count());
 
         $this->artisan('shield:purge-roles', ['--force' => true])
@@ -650,7 +694,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertSame(0, Role::count());
     }
 
-    public function test_seed_command_restores_defaults(): void {
+    public function test_seed_command_restores_defaults(): void
+    {
         $userClass = config('shield.models.user');
         $tempUser = $userClass::factory()->create([
             'name' => 'Temp User',
@@ -678,7 +723,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertGreaterThan(0, DB::table(config('shield.tables.role_privilege', 'privilege_role'))->count());
     }
 
-    public function test_seed_privileges_command_restores_default_privileges(): void {
+    public function test_seed_privileges_command_restores_default_privileges(): void
+    {
         Privilege::query()->delete();
 
         $this->artisan('shield:seed-privileges', ['--force' => true])
@@ -688,7 +734,8 @@ class ConsoleCommandTest extends TestCase {
         $this->assertDatabaseHas(config('shield.tables.privileges', 'privileges'), ['slug' => 'report.generate']);
     }
 
-    public function test_publish_config_command_exports_file(): void {
+    public function test_publish_config_command_exports_file(): void
+    {
         $configPath = config_path('shield.php');
         if (file_exists($configPath)) {
             unlink($configPath);
@@ -700,13 +747,15 @@ class ConsoleCommandTest extends TestCase {
         $this->assertFileExists($configPath);
     }
 
-    public function test_publish_migrations_command_runs_vendor_publish(): void {
+    public function test_publish_migrations_command_runs_vendor_publish(): void
+    {
         $this->artisan('shield:publish-migrations', ['--force' => true])
             ->expectsOutputToContain('Shield migrations (roles, privileges, suspension) published')
             ->assertExitCode(0);
     }
 
-    public function test_prepare_user_model_command_updates_target_file(): void {
+    public function test_prepare_user_model_command_updates_target_file(): void
+    {
         $path = base_path('tests/runtime/User.php');
         File::ensureDirectoryExists(dirname($path));
 

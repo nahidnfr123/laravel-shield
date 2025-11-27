@@ -2,11 +2,11 @@
 
 namespace NahidFerdous\Shield\Tests\Unit;
 
+use Illuminate\Support\Facades\Cache;
 use NahidFerdous\Shield\Models\Privilege;
 use NahidFerdous\Shield\Models\Role;
 use NahidFerdous\Shield\Support\ShieldCache;
 use NahidFerdous\Shield\Tests\TestCase;
-use Illuminate\Support\Facades\Cache;
 
 class HasShieldRolesTest extends TestCase
 {

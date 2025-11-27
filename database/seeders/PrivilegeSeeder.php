@@ -2,10 +2,10 @@
 
 namespace NahidFerdous\Shield\Database\Seeders;
 
-use NahidFerdous\Shield\Models\Privilege;
-use NahidFerdous\Shield\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 
 class PrivilegeSeeder extends Seeder
 {

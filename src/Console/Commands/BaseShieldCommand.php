@@ -2,10 +2,10 @@
 
 namespace NahidFerdous\Shield\Console\Commands;
 
-use NahidFerdous\Shield\Models\Privilege;
-use NahidFerdous\Shield\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use NahidFerdous\Shield\Models\Privilege;
+use NahidFerdous\Shield\Models\Role;
 use Symfony\Component\Process\Process;
 
 abstract class BaseShieldCommand extends Command

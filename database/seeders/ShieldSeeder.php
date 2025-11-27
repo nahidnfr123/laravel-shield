@@ -6,8 +6,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class ShieldSeeder extends Seeder {
-    public function run(): void {
+class ShieldSeeder extends Seeder
+{
+    public function run(): void
+    {
         $this->truncateShieldTables();
 
         $this->call([
@@ -17,7 +19,8 @@ class ShieldSeeder extends Seeder {
         ]);
     }
 
-    protected function truncateShieldTables(): void {
+    protected function truncateShieldTables(): void
+    {
         $userClass = config('shield.models.user', config('auth.providers.users.model', 'App\\Models\\User'));
         $userTable = (new $userClass)->getTable();
         $rolesTable = config('shield.tables.roles', 'roles');

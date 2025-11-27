@@ -1,12 +1,12 @@
 <?php
 
-    namespace NahidFerdous\Shield\Tests\Fixtures;
+namespace NahidFerdous\Shield\Tests\Fixtures;
 
-use NahidFerdous\Shield\Concerns\HasShieldRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use NahidFerdous\Shield\Concerns\HasShieldRoles;
 
 class User extends Authenticatable
 {

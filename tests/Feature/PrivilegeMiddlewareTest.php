@@ -2,11 +2,11 @@
 
 namespace NahidFerdous\Shield\Tests\Feature;
 
+use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Sanctum;
 use NahidFerdous\Shield\Models\Role;
 use NahidFerdous\Shield\Tests\Fixtures\User;
 use NahidFerdous\Shield\Tests\TestCase;
-use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\Sanctum;
 
 class PrivilegeMiddlewareTest extends TestCase
 {
