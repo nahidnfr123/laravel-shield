@@ -1,6 +1,15 @@
 {
     "name": "nahidferdous/laravel-shield",
     "description": "Shield - zero-config API boilerplate packaged for Laravel 12 projects",
+    "authors": [
+        {
+            "name": "Nahid Ferdous",
+            "email": "nahidferdous240@gmail.com",
+            "homepage": "https://nahidferdous.vercel.app",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/nahidnfr123/laravel-shield",
     "keywords": [
         "laravel",
         "sanctum",
