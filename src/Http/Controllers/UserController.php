@@ -100,7 +100,8 @@ class UserController implements HasMiddleware
         $user->save();
 
         if (!empty($data['roles']) || !empty($data['role'])) {
-            $roles = is_array($data['roles'] ?? $data['role']) ? ($data['roles'] ?? $data['role']) : [$data['roles'] ?? $data['role']];
+            $roles = $data['roles'] ?? $data['role'];
+            $roles = is_array($roles) ? $roles : [$roles];
             $existingRoles = Role::whereIn('id', $roles)->pluck('id')->toArray();
             if ($existingRoles) {
                 $user->roles()->sync($existingRoles);
