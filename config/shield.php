@@ -386,7 +386,7 @@ return [
             |
             | Example: https://yourapp.com/verify-email
             */
-            'redirect_url' => env('APP_URL') . '/verify-email',
+            'redirect_url' => env('APP_URL').'/verify-email',
         ],
 
         /*
@@ -418,7 +418,7 @@ return [
             | Frontend URL for password reset form.
             | The token will be appended as a query parameter.
             */
-            'redirect_url' => env('APP_URL') . '/reset-password',
+            'redirect_url' => env('APP_URL').'/reset-password',
         ],
     ],
 

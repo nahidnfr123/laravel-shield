@@ -44,7 +44,7 @@ class UserController implements HasMiddleware
         $simple = request('simple', true);
         $users = $this->userQuery()->with('roles:name');
         $users = $this->paginateIfRequested($users, $simple);
-        $users->each(fn($u) => $u->roles->makeHidden('pivot'));
+        $users->each(fn ($u) => $u->roles->makeHidden('pivot'));
 
         return $this->success('User list', $this->formatePaginatedData($users, $simple));
     }
@@ -93,13 +93,13 @@ class UserController implements HasMiddleware
             'email_verified_at' => $data['email_verified_at'] ?? null,
         ]));
 
-        if ($loggedInUser->id !== $user->id && !$loggedInUser->tokenCan('admin') && !$loggedInUser->tokenCan('super-admin')) {
+        if ($loggedInUser->id !== $user->id && ! $loggedInUser->tokenCan('admin') && ! $loggedInUser->tokenCan('super-admin')) {
             throw new MissingAbilityException('Not Authorized');
         }
 
         $user->save();
 
-        if (!empty($data['roles']) || !empty($data['role'])) {
+        if (! empty($data['roles']) || ! empty($data['role'])) {
             $roles = $data['roles'] ?? $data['role'];
             $roles = is_array($roles) ? $roles : [$roles];
             $existingRoles = Role::whereIn('id', $roles)->pluck('id')->toArray();
@@ -143,7 +143,7 @@ class UserController implements HasMiddleware
 
         $user = $request->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'current_password' => ['Current password is incorrect'],
             ]);

@@ -127,4 +127,14 @@ class AuthServiceFactory
 
         self::ensurePackageInstalled($driver);
     }
+
+    public static function password(): ShieldPasswordService
+    {
+        return app(ShieldPasswordService::class);
+    }
+
+    public static function verification(): ShieldVerificationService
+    {
+        return app(ShieldVerificationService::class);
+    }
 }
