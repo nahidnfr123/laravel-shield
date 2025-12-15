@@ -1,0 +1,66 @@
+{
+    "name": "nahidferdous/laravel-shield",
+    "description": "Shield - zero-config API boilerplate packaged for Laravel 12 projects",
+    "keywords": [
+        "laravel",
+        "sanctum",
+        "passport",
+        "socialite",
+        "roles",
+        "api"
+    ],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.23",
+        "socialiteproviders/manager": "^4.0",
+        "spatie/laravel-permission": "^6.23"
+    },
+    "suggest": {
+        "laravel/passport": "Install if you want to use the Passport auth driver ^11.0|^12.0",
+        "tymon/jwt-auth": "Install if you want to use the JWT auth driver ^2.2"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.25",
+        "nunomaduro/collision": "^8.6",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "NahidFerdous\\Shield\\": "src/",
+            "NahidFerdous\\Shield\\Database\\": "database/",
+            "NahidFerdous\\Shield\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NahidFerdous\\Shield\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NahidFerdous\\Shield\\Providers\\ShieldServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

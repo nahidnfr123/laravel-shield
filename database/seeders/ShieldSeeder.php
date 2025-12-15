@@ -1,0 +1,50 @@
+<?php
+
+namespace NahidFerdous\Shield\Database\Seeders;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+class ShieldSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Cache::forget('roles');
+        Cache::forget('permissions');
+        Artisan::call('optimize:clear');
+
+        Model::unguard();
+
+        // $this->truncateShieldTables();
+
+        $this->call([
+            RoleSeeder::class,
+            PermissionSeeder::class,
+            UsersSeeder::class,
+        ]);
+    }
+
+    protected function truncateShieldTables(): void
+    {
+        $userClass = resolveAuthenticatableClass();
+        $userTable = (new $userClass)->getTable();
+        $rolesTable = config('shield.tables.roles', 'roles');
+        $pivotTable = config('shield.tables.pivot', 'user_roles');
+        $privilegesTable = config('shield.tables.privileges', 'privileges');
+        $rolePrivilegesTable = config('shield.tables.role_privilege', 'privilege_role');
+
+        Schema::disableForeignKeyConstraints();
+
+        foreach ([$rolePrivilegesTable, $privilegesTable, $pivotTable, $userTable, $rolesTable] as $table) {
+            if (Schema::hasTable($table)) {
+                DB::table($table)->truncate();
+            }
+        }
+
+        Schema::enableForeignKeyConstraints();
+    }
+}
