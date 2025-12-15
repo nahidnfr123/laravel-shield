@@ -1,4 +1,5 @@
 {
+    "version": "1.0.2",
     "name": "nahidferdous/laravel-shield",
     "description": "Shield - zero-config API boilerplate packaged for Laravel 12 projects",
     "authors": [
