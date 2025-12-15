@@ -50,11 +50,21 @@ abstract class AuthService
 
         $user = $userClass::create($data);
 
-        $defaultRoleSlug = config('shield.default_user_role_slug', 'user');
-        $role = Role::where('slug', $defaultRoleSlug)->first();
+        if ($data['roles'] || $data['role']) {
+            $roles = $data['roles'] ?? $data['role'];
+            $roles = is_array($roles) ? $roles : [$roles];
 
-        if ($role) {
-            $user->roles()->attach($role);
+            $existingRoles = Role::whereIn('id', $roles)->pluck('id')->toArray();
+            if (!empty($existingRoles)) {
+                $user->roles()->sync($existingRoles);
+            }
+        } else {
+            $defaultRoleSlug = config('shield.default_user_role_slug', 'user');
+            $role = Role::where('slug', $defaultRoleSlug)->first();
+
+            if ($role) {
+                $user->roles()->attach($role);
+            }
         }
 
         return $user;
@@ -95,7 +105,7 @@ abstract class AuthService
                 }
             }
 
-            if (! $user && isset($credentials['login'])) {
+            if (!$user && isset($credentials['login'])) {
                 foreach ($fields as $field) {
                     $user = $this->userClass::where($field, $credentials['login'])->first();
                     if ($user) {
@@ -116,11 +126,11 @@ abstract class AuthService
      */
     protected function validateUser($user, string $password): void
     {
-        if (! $this->validateCredentials($user, $password)) {
+        if (!$this->validateCredentials($user, $password)) {
             throw new \RuntimeException('Invalid credentials', 401);
         }
 
-        if (! $this->userIsVerified($user)) {
+        if (!$this->userIsVerified($user)) {
             throw new \RuntimeException('Account not verified', 403);
         }
     }
@@ -130,7 +140,7 @@ abstract class AuthService
      */
     protected function validateCredentials($user, string $password): bool
     {
-        if (! $user) {
+        if (!$user) {
             return false;
         }
 
@@ -142,13 +152,13 @@ abstract class AuthService
      */
     protected function userIsVerified($user): bool
     {
-        if (! config('shield.auth.check_verified', false)) {
+        if (!config('shield.auth.check_verified', false)) {
             return true;
         }
 
         $verificationField = config('shield.auth.verification_field', 'email_verified_at');
 
-        return (bool) ($user->{$verificationField} ?? false);
+        return (bool)($user->{$verificationField} ?? false);
     }
 
     /**
@@ -207,8 +217,8 @@ abstract class AuthService
         ]);
 
         // Generate verification URL
-        $url = (string) config('shield.emails.verify_email.redirect_url', url(config('shield.route_prefix').'/verify-email'));
-        $redirectUrl = $url.'?token='.$token;
+        $url = (string)config('shield.emails.verify_email.redirect_url', url(config('shield.route_prefix') . '/verify-email'));
+        $redirectUrl = $url . '?token=' . $token;
 
         // Send email
         Mail::to($user->email)->send(new VerifyEmailMail($user, $redirectUrl));
