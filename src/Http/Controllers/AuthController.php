@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use NahidFerdous\Shield\Events\ShieldUserRegisterEvent;
-use NahidFerdous\Shield\Http\Requests\ShieldCreateUserRequest;
+use NahidFerdous\Shield\Http\Requests\ShieldUserCreateRequest;
 use NahidFerdous\Shield\Http\Requests\ShieldLoginRequest;
 use NahidFerdous\Shield\Models\EmailVerificationToken;
 use NahidFerdous\Shield\Services\Auth\AuthServiceFactory;
@@ -43,7 +43,7 @@ class AuthController extends Controller
             $userClass = resolveAuthenticatableClass($guard);
             $model = new $userClass;
             // Use validated() if it's NOT the default CreateUserRequest
-            if (get_class($request) !== ShieldCreateUserRequest::class) {
+            if (get_class($request) !== ShieldUserCreateRequest::class) {
                 $validatedData = $request->validated();
                 $userData = array_intersect_key($validatedData, array_flip($model->getFillable()));
             } else {

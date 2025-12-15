@@ -243,7 +243,7 @@ return [
             | Custom form request class for user registration validation.
             | You can create your own class extending FormRequest.
             */
-            'request_class' => \NahidFerdous\Shield\Http\Requests\ShieldCreateUserRequest::class,
+            'request_class' => \NahidFerdous\Shield\Http\Requests\ShieldUserCreateRequest::class,
 
             /*
             | Send Verification Email

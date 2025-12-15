@@ -7,7 +7,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
-use NahidFerdous\Shield\Http\Requests\ShieldCreateUserRequest;
+use NahidFerdous\Shield\Http\Requests\ShieldUserCreateRequest;
+use NahidFerdous\Shield\Http\Requests\ShieldUserUpdateRequest;
 use NahidFerdous\Shield\Models\Role;
 use NahidFerdous\Shield\Support\Policy;
 use NahidFerdous\Shield\Traits\ApiResponseTrait;
@@ -43,7 +44,7 @@ class UserController implements HasMiddleware
         $simple = request('simple', true);
         $users = $this->userQuery()->with('roles:name');
         $users = $this->paginateIfRequested($users, $simple);
-        $users->each(fn ($u) => $u->roles->makeHidden('pivot'));
+        $users->each(fn($u) => $u->roles->makeHidden('pivot'));
 
         return $this->success('User list', $this->formatePaginatedData($users, $simple));
     }
@@ -51,12 +52,12 @@ class UserController implements HasMiddleware
     /**
      * Create a new user
      */
-    public function store(ShieldCreateUserRequest $request): \Illuminate\Http\JsonResponse
+    public function store(ShieldUserCreateRequest $request): \Illuminate\Http\JsonResponse
     {
         $userClass = $this->userClass();
         $model = new $userClass;
         // Use validated() if it's NOT the default CreateUserRequest
-        if (get_class($request) !== ShieldCreateUserRequest::class) {
+        if (get_class($request) !== ShieldUserCreateRequest::class) {
             $validatedData = $request->validated();
             $userData = array_intersect_key($validatedData, array_flip($model->getFillable()));
         } else {
@@ -79,29 +80,34 @@ class UserController implements HasMiddleware
     /**
      * Update a user
      */
-    public function update(Request $request, $user): \Illuminate\Http\JsonResponse
+    public function update(ShieldUserUpdateRequest $request, $user): \Illuminate\Http\JsonResponse
     {
+        $data = $request->validated();
         $user = $this->resolveUser($user);
-
-        $user->name = $request->name ?? $user->name;
-        $user->email = $request->email ?? $user->email;
-        $user->password = $request->password ? Hash::make($request->password) : $user->password;
-        $user->email_verified_at = $request->email_verified_at ?? $user->email_verified_at;
-
         $loggedInUser = $request->user();
-        if ($loggedInUser->id === $user->id) {
-            $user->save();
 
-            return $this->success('User updated successfully.', $user);
+        $user->fill(array_filter([
+            'name' => $data['name'] ?? null,
+            'email' => $data['email'] ?? null,
+            'password' => isset($data['password']) && $data['password'] ? Hash::make($data['password']) : null,
+            'email_verified_at' => $data['email_verified_at'] ?? null,
+        ]));
+
+        if ($loggedInUser->id !== $user->id && !$loggedInUser->tokenCan('admin') && !$loggedInUser->tokenCan('super-admin')) {
+            throw new MissingAbilityException('Not Authorized');
         }
 
-        if ($loggedInUser->tokenCan('admin') || $loggedInUser->tokenCan('super-admin')) {
-            $user->save();
+        $user->save();
 
-            return $this->success('User updated successfully.', $user);
+        if (!empty($data['roles']) || !empty($data['role'])) {
+            $roles = is_array($data['roles'] ?? $data['role']) ? ($data['roles'] ?? $data['role']) : [$data['roles'] ?? $data['role']];
+            $existingRoles = Role::whereIn('id', $roles)->pluck('id')->toArray();
+            if ($existingRoles) {
+                $user->roles()->sync($existingRoles);
+            }
         }
 
-        throw new MissingAbilityException('Not Authorized');
+        return $this->success('User updated successfully.', $user);
     }
 
     /**
@@ -136,7 +142,7 @@ class UserController implements HasMiddleware
 
         $user = $request->user();
 
-        if (! Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($request->current_password, $user->password)) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'current_password' => ['Current password is incorrect'],
             ]);

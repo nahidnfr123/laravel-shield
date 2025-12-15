@@ -23,7 +23,7 @@ use NahidFerdous\Shield\Console\Commands\SwitchAuthDriverCommand;
 use NahidFerdous\Shield\Http\Middleware\DetectGuardFromRoute;
 use NahidFerdous\Shield\Http\Middleware\JWTAuthenticate;
 use NahidFerdous\Shield\Http\Middleware\PermissionOrSelf;
-use NahidFerdous\Shield\Http\Requests\ShieldCreateUserRequest;
+use NahidFerdous\Shield\Http\Requests\ShieldUserCreateRequest;
 use NahidFerdous\Shield\Services\Auth\AuthServiceFactory;
 use NahidFerdous\Shield\Services\SocialAuthService;
 
@@ -87,8 +87,8 @@ class ShieldServiceProviderBackup extends ServiceProvider
     {
         // Only bind if the user provided a custom request
         $createClass = config('shield.auth.create_user.request_class');
-        if ($createClass && $createClass !== ShieldCreateUserRequest::class) {
-            $this->app->bind(\NahidFerdous\Shield\Http\Requests\ShieldCreateUserRequest::class, $createClass);
+        if ($createClass && $createClass !== ShieldUserCreateRequest::class) {
+            $this->app->bind(\NahidFerdous\Shield\Http\Requests\ShieldUserCreateRequest::class, $createClass);
         }
         $loginClass = config('shield.auth.login.request_class');
         if ($loginClass && $loginClass !== \NahidFerdous\Shield\Http\Requests\ShieldLoginRequest::class) {

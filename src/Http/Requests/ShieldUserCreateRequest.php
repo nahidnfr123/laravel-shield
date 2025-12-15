@@ -4,7 +4,7 @@ namespace NahidFerdous\Shield\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShieldCreateUserRequest extends FormRequest
+class ShieldUserCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
