@@ -22,7 +22,7 @@ class PermissionSeeder extends Seeder
             foreach ($permissionGroup as $permission) {
                 Permission::updateOrCreate([
                     'name' => is_string($permission) ? $permission : $permission[0],
-                    'guard_name' => 'web',
+                    'guard_name' => shieldDefaultGuard(),
                 ], [
                     'slug' => Str::slug(is_string($permission) ? $permission : $permission[0]),
                     'type' => $key,
@@ -31,6 +31,9 @@ class PermissionSeeder extends Seeder
             }
         }
 
-        Role::where('name', 'super-admin')->first()?->syncPermissions(Permission::all());
+        $superUser = config('shield.super_user_role');
+        if ($superUser) {
+            Role::where('name', $superUser)->first()?->syncPermissions(Permission::all());
+        }
     }
 }

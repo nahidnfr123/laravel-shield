@@ -15,7 +15,7 @@ return [
     | Default: false
     |
     */
-    'multi-guard' => true,
+    'multi-guard' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return [
     | Default: 'sanctum'
     |
     */
-    'auth_driver' => 'jwt',
+    'auth_driver' => 'sanctum',
 
     /*
     |--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ return [
     */
     'available_guards' => [
         'api' => 'user',
-        'admin' => 'admin',
+        // 'admin' => 'admin',
     ],
 
     /*
@@ -112,18 +112,18 @@ return [
     |
     | Enabled (true):
     |   POST /api/auth/user/login    (guard: api)
-    |   POST /api/auth/admin/login   (guard: admin)
+    | POST /api/auth/admin/login   (guard: admin)
     |
     | Disabled (false):
     |   POST /api/auth/login?guard=admin
-    |   POST /api/auth/login?guard=user
+    | POST /api/auth/login?guard=user
     |
     | Separate routes are cleaner, more RESTful, and easier to secure.
     |
     | Default: true
     |
     */
-    'generate_separate_route_for_guards' => true,
+    'generate_separate_route_for_guards' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -319,6 +319,7 @@ return [
     |
     */
     'protected_role_slugs' => ['admin', 'super-admin'],
+    'super_user_role' => ['super-admin'],
 
     /*
     |--------------------------------------------------------------------------
@@ -385,7 +386,7 @@ return [
             |
             | Example: https://yourapp.com/verify-email
             */
-            'redirect_url' => env('APP_URL').'/verify-email',
+            'redirect_url' => env('APP_URL') . '/verify-email',
         ],
 
         /*
@@ -417,7 +418,7 @@ return [
             | Frontend URL for password reset form.
             | The token will be appended as a query parameter.
             */
-            'redirect_url' => env('APP_URL').'/reset-password',
+            'redirect_url' => env('APP_URL') . '/reset-password',
         ],
     ],
 
