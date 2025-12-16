@@ -6,9 +6,9 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use NahidFerdous\Shield\Http\Requests\AssignPermissionToRoleRequest;
 use NahidFerdous\Shield\Http\Requests\AssignPermissionToUserRequest;
+use NahidFerdous\Shield\Models\Permission;
 use NahidFerdous\Shield\Models\Role;
 use NahidFerdous\Shield\Traits\ApiResponseTrait;
-use Spatie\Permission\Models\Permission;
 
 class PermissionController implements HasMiddleware
 {
